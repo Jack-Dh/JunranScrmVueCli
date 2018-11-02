@@ -12,6 +12,7 @@ import ctilist from './activity/CtiList'
 import Redenvelope from './activity/Redenvelope'
 import audit from './activity/audit'
 import Envelopeissue from './activity/Envelopeissue'
+import hello from './components/HelloWorld'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
             path: '/',
             name: 'home',
             component: Home
+        },
+        {
+            path:'/HelloWord',
+            name:'Hellow',
+            component:hello
         },
         // {
         //     path: '/about',
