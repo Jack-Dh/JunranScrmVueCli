@@ -14,9 +14,10 @@
                             <span style="font-size: 1rem;color: #ffffff">系统管理</span>
                         </template>
                         <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="1-1" @click="addTab(editableTabsValue2)"><span
+                            <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理')"><span
                                     class="fontstyle">管理员管理</span></el-menu-item>
-                            <el-menu-item index="1-2" @click="operationList(editableTabsValue2)"><span class="fontstyle">操作日志</span>
+                            <el-menu-item index="1-2" @click="$router.push('operationList');addTab('操作日志')"><span
+                                    class="fontstyle">操作日志</span>
                             </el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
@@ -26,9 +27,10 @@
                             <i class="fontFamily hhtx-weixinguanli"></i>
                             <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
                         <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="2-1" @click="fansList(editableTabsValue2)"><span
+                            <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表')"><span
                                     class="fontstyle">粉丝列表</span></el-menu-item>
-                            <el-menu-item index="2-2" @click="wxset"><span class="fontstyle">微信设置</span>
+                            <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置')"><span
+                                    class="fontstyle">微信设置</span>
                             </el-menu-item>
 
                         </el-menu-item-group>
@@ -39,13 +41,15 @@
                             <i class="fontFamily hhtx-huodongguanli"></i>
                             <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
                         <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="3-1" @click="CtiList(editableTabsValue2)"><span
+                            <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表')"><span
                                     class="fontstyle">活动列表</span></el-menu-item>
-                            <el-menu-item index="3-2" @click="Redenvelope(editableTabsValue2)"><span
+                            <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表')"><span
                                     class="fontstyle">红包列表</span></el-menu-item>
-                            <el-menu-item index="3-3" @click="audit(editableTabsValue2)"><span class="fontstyle">活动审核</span>
+                            <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核')"><span
+                                    class="fontstyle">活动审核</span>
                             </el-menu-item>
-                            <el-menu-item index="3-4" @click="Envelopeissue(editableTabsValue2)"><span class="fontstyle">红包发放</span>
+                            <el-menu-item index="3-4" @click="$router.push('Envelopeissue');addTab('红包发放')"><span
+                                    class="fontstyle">红包发放</span>
                             </el-menu-item>
                         </el-menu-item-group>
 
@@ -60,12 +64,14 @@
                         :key="item.name"
                         :label="item.title"
                         :name="item.name"
+                        :urlTag="item"
                 >
                     <!--{{item.content}}-->
                     <router-view></router-view>
                 </el-tab-pane>
             </el-tabs>
-                <!--<router-view></router-view>-->
+
+            <!--<router-view></router-view>-->
 
         </el-container>
     </el-container>
@@ -122,107 +128,37 @@
                 tableData: Array(20).fill(item),
                 activeName: 'second',
                 editableTabsValue2: '1',
-                editableTabs2: [{
-                    title: '管理员管理',
-                    name: '1',
-                    content: this.$router.push('admin_List')
-                }],
-                tabIndex: 3
+                editableTabs2: [
+                    //     {
+                    //     title: '管理员管理',
+                    //     name: '1',
+                    //     content: this.$router.push('admin_List')
+                    // }
+                ],
+                tabIndex: 0
             }
         },
         methods: {
+            //新增选项卡
+            addTab(Tagname) {
+
+                let newTabName = ++this.tabIndex + '';
+                this.editableTabs2.push({
+                    title: Tagname,
+                    name: newTabName,
+                    content: this.$route.path
+                });
+                this.editableTabsValue2 = newTabName;
+                console.log(newTabName)
+            },
+
             //选项卡被选中时触发
-            handleClick:function(tab,event){
-            console.log(tab)
-                console.log(event)
-            },
-            
-            //管理员列表
-            addTab(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '管理员管理',
-                    name: newTabName,
-                    content: this.$router.push('admin_List')
-                });
-                this.editableTabsValue2 = newTabName;
-                this.$router.push('admin_list')
-
-            },
-            //操作日志
-            operationList(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '操作日志',
-                    name: newTabName,
-                    content: this.$router.push('operationList')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-            //粉丝列表
-            fansList(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '粉丝列表',
-                    name: newTabName,
-                    content: this.$router.push('fanslist')
-                });
-                this.editableTabsValue2 = newTabName;
+            handleClick: function (tab, event) {
+                var routerUrl = tab.$attrs.urlTag.content
+                this.$router.push(routerUrl.substring(1))
             },
 
-            //微信设置
-            wxset(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '微信设置',
-                    name: newTabName,
-                    content: this.$router.push('wxSet')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-            //活动列表
-            CtiList(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '活动列表',
-                    name: newTabName,
-                    content: this.$router.push('CtiList')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-            //红包列表
-            Redenvelope(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '红包列表',
-                    name: newTabName,
-                    content: this.$router.push('CtiList')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-            //活动审核
-            audit(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '活动审核',
-                    name: newTabName,
-                    content: this.$router.push('audit')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-            //红包发放
-            Envelopeissue(targetName) {
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: '红包发放',
-                    name: newTabName,
-                    content: this.$router.push('Envelopeissue')
-                });
-                this.editableTabsValue2 = newTabName;
-            },
-
-
-
+            //移除选项卡
             removeTab(targetName) {
                 let tabs = this.editableTabs2;
                 let activeName = this.editableTabsValue2;
@@ -236,9 +172,14 @@
                         }
                     });
                 }
-
                 this.editableTabsValue2 = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
+                this.editableTabs2.splice(targetName - 1, 1)
+                //
+                var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
+                //获取已经删除标签的上一个标签信息
+
+                this.$router.push(rou)
             },
 
 

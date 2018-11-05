@@ -26,7 +26,7 @@
 
             <el-table
                     :data="intel"
-                    height="800"
+
                     v-loading="loading"
 
                     style="width: 100%"
@@ -145,7 +145,7 @@
                 this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {
-                        size: 15,
+                        size: 10,
                         username: this.adminName
                     }
                 }).then(res => {
@@ -156,14 +156,12 @@
 
             },
             handleCurrentChange: function (val) {
-                console.log(val)
-
                 this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
                     params: {
-                        size: '15',
+                        size: '10',
                         page: val - 1
                     }
                 }).then(res => {
@@ -252,7 +250,7 @@
                         token: this.$cookies.get('token')
                     },
                     params: {
-                        size: '15'
+                        size: '10'
                     }
                 }).then(res => {
                     this.intel = res.data.data
@@ -272,6 +270,6 @@
 
 <style scoped>
     .admin_list {
-        width: 100%
+        width: 100%;
     }
 </style>
