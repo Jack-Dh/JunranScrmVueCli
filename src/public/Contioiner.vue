@@ -70,7 +70,36 @@
                     <router-view></router-view>
                 </el-tab-pane>
             </el-tabs>
+            <div class="indexPage" v-if="indexPage">
+                <h3>骏然CRM网络平台粉丝管理系统</h3>
+                <h4>欢迎您！</h4>
+                <h1>{{Time | filtTime}}</h1>
 
+
+                <div>
+                    <div style="margin: 2%">
+                        <div class="prompt">
+                            <p style="background-color: red;width: 50px;height: 25px"></p>
+                            <p>已取关</p>
+                        </div>
+
+                        <div class="prompt">
+                            <p style="background-color:#20a0ff;width: 50px;height: 25px"></p>
+                            <p>已关注</p>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+                        <el-progress type="circle" :percentage="1" color="red"></el-progress>
+                        <el-progress type="circle" :percentage="99" color="#20a0ff"></el-progress>
+
+                    </div>
+                </div>
+
+
+            </div>
             <!--<router-view></router-view>-->
 
         </el-container>
@@ -80,6 +109,11 @@
 
 
 <style>
+    .indexPage {
+        width: 100%;
+
+    }
+
     .fontstyle {
         color: #ffffff;
     }
@@ -102,6 +136,12 @@
     .hhtx-guanli, .hhtx-weixinguanli, .hhtx-huodongguanli {
         margin-right: 10px;
         color: #ffffff
+    }
+
+    .prompt {
+        width: 100px;
+        display: flex;
+        justify-content: space-between
     }
 
 </style>
@@ -135,13 +175,30 @@
                     //     content: this.$router.push('admin_List')
                     // }
                 ],
-                tabIndex: 0
+                tabIndex: 0,
+                indexPage: true,
+                Time: new Date()
+            }
+        },
+        filters: {
+            //时间格式过滤器
+
+            filtTime: function (input) {
+                var d = new Date();
+                var year = d.getFullYear() < 10 ? '0' + d.getFullYear() : d.getFullYear();//年
+                var month = d.getMonth() + 1 < 10 ? '0' + d.getMonth() + 1 : d.getMonth() + 1;//月
+                var day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();//日
+                var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();//时
+                var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();//分
+                var seconds = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();//秒
+                return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds
             }
         },
         methods: {
+
             //新增选项卡
             addTab(Tagname) {
-
+                this.indexPage = false;
                 let newTabName = ++this.tabIndex + '';
                 this.editableTabs2.push({
                     title: Tagname,
@@ -149,7 +206,7 @@
                     content: this.$route.path
                 });
                 this.editableTabsValue2 = newTabName;
-                console.log(newTabName)
+
             },
 
             //选项卡被选中时触发
@@ -160,26 +217,30 @@
 
             //移除选项卡
             removeTab(targetName) {
-                let tabs = this.editableTabs2;
-                let activeName = this.editableTabsValue2;
-                if (activeName === targetName) {
-                    tabs.forEach((tab, index) => {
-                        if (tab.name === targetName) {
-                            let nextTab = tabs[index + 1] || tabs[index - 1];
-                            if (nextTab) {
-                                activeName = nextTab.name;
+                if (this.editableTabs2.length > 1) {
+                    let tabs = this.editableTabs2;
+                    let activeName = this.editableTabsValue2;
+                    if (activeName === targetName) {
+                        tabs.forEach((tab, index) => {
+                            if (tab.name === targetName) {
+                                let nextTab = tabs[index + 1] || tabs[index - 1];
+                                if (nextTab) {
+                                    activeName = nextTab.name;
+                                }
                             }
-                        }
-                    });
-                }
-                this.editableTabsValue2 = activeName;
-                this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
-                this.editableTabs2.splice(targetName - 1, 1)
-                //
-                var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
-                //获取已经删除标签的上一个标签信息
+                        });
+                    }
+                    this.editableTabsValue2 = activeName;
+                    this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
 
-                this.$router.push(rou)
+                    var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
+                    //获取已经删除标签的上一个标签信息
+                    this.$router.push(rou)
+                } else {
+                    alert('默认标签首页不允许关闭哦')
+                }
+
+
             },
 
 
@@ -191,9 +252,17 @@
                 this.$router.push('./')
             }
 
-        },
-        created: function () {
-            this.name = this.$cookies.get('name')
         }
-    };
+        ,
+        created: function () {
+
+            this.name = this.$cookies.get('name');
+            let that = this
+
+            setInterval(function () {
+                that.Time=new Date()
+            }, 1000)
+        }
+    }
+    ;
 </script>
