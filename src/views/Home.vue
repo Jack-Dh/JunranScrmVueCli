@@ -77,7 +77,7 @@ import index from './index'
 
     .login_back {
         padding: 2%;
-        width: 50%;
+        width: 40%;
         background: #000;
         color: #ffffff;
         filter: alpha(Opacity=60);

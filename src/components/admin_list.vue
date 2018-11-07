@@ -24,49 +24,63 @@
             </el-dialog>
 
 
-            <el-table
-                    :data="intel"
+                    <el-table
+                            :data="intel"
+                            style="width: 100%"
+                            v-loading="loading"
+                    >
+                        <el-table-column
+                                prop="createTime"
+                                label="添加时间"
+                                width="260"
+                                align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="昵称"
+                                width="180"
+                                align="center"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="username"
+                                label="账号"
+                                align="center"
+                                width="180"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="password"
+                                label="密码"
+                                align="center"
+                                width="230"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                label="操作"
+                                align="center"
+                                width="180"
+                        >
+                            <template slot-scope="scope">
+                                <el-button type="text" size="small" @click="handleClick(scope.row),dialogVisible = true,update">
+                                    修改
+                                </el-button>
+                            </template>
 
-                    v-loading="loading"
+                        </el-table-column>
+                    </el-table>
 
-                    style="width: 100%"
 
-            >
-                <el-table-column
-                        prop="createTime"
-                        label="添加时间"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="name"
-                        label="昵称"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="username"
-                        label="账号">
-                </el-table-column>
-                <el-table-column
-                        prop="password"
-                        label="密码">
-                </el-table-column>
-                <el-table-column
-                        label="操作"
-                        width="100"
-                >
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="handleClick(scope.row),dialogVisible = true,update">
-                            修改
-                        </el-button>
-                    </template>
 
-                </el-table-column>
-            </el-table>
+
+
+
         </template>
         <el-dialog
                 title="修改信息"
                 :visible.sync="dialogVisible"
-                width="30%"
+                width="280"
                 :before-close="handleClose">
             <!--<span>这是一段信息</span>-->
             <el-input :value="name" v-model="name" placeholder="请输入昵称"></el-input>
@@ -110,7 +124,7 @@
                 addpassword: '',
                 addpasswords: '',
                 showAdd: true,//判断登录员身份，是否显示添加管理员按钮
-                loading:true
+                loading: true
 
             }
         },
@@ -239,11 +253,11 @@
                     createTime: this.$cookies.get('createTime'),
                     name: this.$cookies.get('nickName'),
                     password: this.$cookies.get('password'),
-                    id:this.$cookies.get('id'),
+                    id: this.$cookies.get('id'),
                     username: name,
                 }]
                 this.intel = adminData
-                this.loading=false
+                this.loading = false
             } else {
                 this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {
@@ -256,7 +270,7 @@
                     this.intel = res.data.data
                     this.pageCount = res.data.pageCount
                     this.size = res.data.size
-                    this.loading=false
+                    this.loading = false
                     console.log(res.data.data)
 
                 })
@@ -270,6 +284,7 @@
 
 <style scoped>
     .admin_list {
-        width: 100%;
+
     }
+
 </style>

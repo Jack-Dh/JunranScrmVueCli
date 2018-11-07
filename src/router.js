@@ -14,6 +14,8 @@ import audit from './activity/audit'
 import Envelopeissue from './activity/Envelopeissue'
 import hello from './components/HelloWorld'
 
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -30,6 +32,7 @@ export default new Router({
             name:'Hellow',
             component:hello
         },
+
         // {
         //     path: '/about',
         //     name: 'about',
@@ -85,7 +88,8 @@ export default new Router({
                     path: '/Envelopeissue',
                     name: 'Envelopeissue',
                     component: Envelopeissue
-                }]
+                },
+                ]
         }
 
     ]

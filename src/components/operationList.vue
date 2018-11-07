@@ -1,41 +1,49 @@
 <template>
-    <div style="height: 100vh">
+    <div>
 
         <template>
             <el-table
                     :data="oper"
                     style="width: 100%"
-                    >
+                    v-loading="loading"
+            >
 
                 <el-table-column
                         prop="module"
                         label="操作模块"
-                        width="180">
+                        width="180"
+                        align="center"
+                >
                 </el-table-column>
                 <el-table-column
                         prop="operation"
                         label="操作描述"
-                        width="180">
+                        width="180"
+                        align="center">
                 </el-table-column>
                 <el-table-column
                         prop="updateTime"
                         label="操作时间"
-                width="300"
+                        width="300"
+                        align="center"
                 >
                 </el-table-column>
                 <el-table-column
                         prop="operation"
                         label="操作内容"
-                        width="180">
+                        width="180"
+                        align="center">
                 </el-table-column>
                 <el-table-column
                         prop="operatorName"
                         label="操作人"
-                        width="180">
+                        width="180"
+                        align="center">
                 </el-table-column>
                 <el-table-column
                         prop="ip"
-                        label="IP">
+                        label="IP"
+                        align="center">
                 </el-table-column>
             </el-table>
         </template>
@@ -90,7 +98,8 @@
                 total: 0,
                 size: 0,
                 page: 0,
-                currentPage: 1
+                currentPage: 1,
+                loading:true
 
             }
         },
@@ -109,6 +118,7 @@
                 this.size = res.data.size
                 this.total = res.data.count
                 this.page = res.data.page
+                this.loading = false
                 console.log(this.oper)
             })
 

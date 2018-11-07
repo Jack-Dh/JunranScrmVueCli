@@ -1,6 +1,6 @@
 <template>
     <div class="Redenvelope">
-        <div style="display: flex;flex-direction: row;margin-left: 1%;padding: 2%">
+        <div style="display: flex;flex-direction: row;margin-left: 1%;padding: 1%">
             <el-button @click="redopen">批量启用</el-button>
             <el-button @click="redShut">批量停用</el-button>
             <el-button @click="dialogVisible=true">创建红包</el-button>
@@ -44,9 +44,10 @@
                     style="width: 100%"
                     border
                     @selection-change="selectChange"
+                    v-loading="loading"
             >
 
-                <el-table-column type="expand">
+                <el-table-column type="expand"  fixed>
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
                             <el-form-item label="红包名称">
@@ -76,8 +77,9 @@
 
 
                 <el-table-column
+                        fixed
                         type="selection"
-                        width="55"
+                        width="60"
                         align="center">
                 </el-table-column>
                 <el-table-column
@@ -95,7 +97,7 @@
                 <el-table-column
                         prop="sendName"
                         label="商户名称"
-                        width="200"
+                        width="260"
                         align="center"
                 >
                 </el-table-column>
@@ -103,7 +105,7 @@
                 <el-table-column
                         label="状态"
                         align="center"
-                        width="60"
+                        width="100"
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <span><i :class="scope.row.state=='01'?'el-icon-check':'el-icon-close'"></i></span>
@@ -113,7 +115,7 @@
                         prop="totalAmount"
                         label="红包金额(元)"
                         align="center"
-                        width="100"
+                        width="160"
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <span>{{scope.row.totalAmount/100}}</span>
@@ -122,7 +124,7 @@
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="150"
+
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <el-button type="text" @click="redTagg(scope.row.id,scope.row.state)">停用启用</el-button>
@@ -198,6 +200,7 @@
                 Upwishing: '',//修改红包祝福语
                 Upredremark: '',//修改红包备注
                 UpredID: '',//红包ID
+                loading:true
             }
         },
         methods: {
@@ -285,6 +288,7 @@
                         this.$router.push('./')
                     } else if (res.data.code == 0) {
                         this.red = res.data.data
+                        this.loading = false
                     }
                 })
             },
@@ -399,6 +403,7 @@
                 this.red = res.data.data
                 this.count = res.data.count
                 this.size = res.data.size
+                this.loading = false
             })
 
 

@@ -87,6 +87,7 @@
                 :data="ctilist"
                 border
                 style="width: 100%"
+                v-loading="loading"
                 @selection-change="handleSelectionChange">
             >
             <el-table-column type="expand" fixed>
@@ -147,15 +148,15 @@
 
 
             <el-table-column
-                    fixed
+
                     prop="activityName"
                     label="活动名称"
-                    width="150"
+
                     align="center"
             ></el-table-column>
 
             <el-table-column
-                    fixed
+
                     prop="award"
                     label="活动奖励"
                     width="280"
@@ -163,9 +164,9 @@
             ></el-table-column>
 
             <el-table-column
-                    fixed
+
                     label="参与人数"
-                    width="120"
+                    width="150"
                     align="center"
             >
                 <template slot-scope="scope">
@@ -175,9 +176,10 @@
             </el-table-column>
 
             <el-table-column
-                    fixed
+
                     label="状态"
                     align="center"
+                    width="120"
             >
                 <template slot-scope="scope">
                     <span><i :class="scope.row.state=='01'?'el-icon-check':'el-icon-close'"></i></span>
@@ -186,7 +188,7 @@
 
 
             <el-table-column
-                    fixed
+
                     prop="createTime"
                     label="开始时间"
                     width="260"
@@ -194,7 +196,7 @@
             ></el-table-column>
 
             <el-table-column
-                    fixed
+
                     prop="endTime"
                     label="结束时间"
                     width="260"
@@ -202,9 +204,9 @@
             ></el-table-column>
 
             <el-table-column
-                    fixed="right"
+
                     label="操作"
-                    width="130"
+                    width="180"
                     align="center"
             >
                 <template slot-scope="scope">
@@ -338,6 +340,7 @@
                 Upshop: '',//修改活动店铺
                 Upremark: '',//修改活动说明
                 Upmax: '',//修改活动最大参与人数
+                loading:true
             }
         },
         methods: {  //创建活动按钮
@@ -470,10 +473,11 @@
             searchCti: function () {
                 this.$http.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                     headers: {token: this.$cookies.get('token')},
-                    params: {size: 10, state: this.value, activityName: this.ctiName}
+                    params: {size: 9, state: this.value, activityName: this.ctiName}
                 }).then(res => {
                     console.log(res.data)
                     this.ctilist = res.data.data
+                    this.loading = false
                 })
             },
 
@@ -556,11 +560,12 @@
 
             this.$http.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                 headers: {token: this.$cookies.get('token')},
-                params: {size: 10}
+                params: {size: 9}
             }).then(res => {
                 console.log(res.data)
                 this.ctilist = res.data.data
                 this.pageCount = res.data.pageCount
+                this.loading = false
                 console.log(this.pageCount)
             })
 

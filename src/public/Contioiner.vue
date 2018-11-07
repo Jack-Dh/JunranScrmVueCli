@@ -1,13 +1,18 @@
 <template>
     <el-container>
         <el-header
-                style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 3rem;color: #FFFFFF;background-color: #393d49">
+                style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
             <span style="font-size: 1rem;font-weight: bold">骏然SCRM</span>
             <span style="" @click="logout">{{name}} 退出</span>
         </el-header>
-        <el-container style="height: 500px;">
-            <el-aside width="200px" style="background-color: #393d49">
+        <el-container style="width: 100%;">
+            <el-aside style="background-color: #393d49;width:200px;">
                 <el-menu style="background-color:#393d49">
+                    <el-menu-item index="0" style="font-size: 1rem;color: #ffffff" @click="Tabs=false;indexPage=true">
+                        <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
+                        <span slot="title">首&nbsp;&nbsp;页</span>
+                    </el-menu-item>
+
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="fontFamily hhtx-guanli"></i>
@@ -32,7 +37,6 @@
                             <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置')"><span
                                     class="fontstyle">微信设置</span>
                             </el-menu-item>
-
                         </el-menu-item-group>
 
                     </el-submenu>
@@ -58,43 +62,49 @@
             </el-aside>
 
 
-            <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab" @tab-click="handleClick">
-                <el-tab-pane
-                        v-for="(item, index) in editableTabs2"
-                        :key="item.name"
-                        :label="item.title"
-                        :name="item.name"
-                        :urlTag="item"
-                >
-                    <!--{{item.content}}-->
-                    <router-view></router-view>
-                </el-tab-pane>
-            </el-tabs>
+                <el-tabs v-model="editableTabsValue2"type="card" closable @tab-remove="removeTab" @tab-click="handleClick"
+                         v-if="Tabs" style="width: 85%">
+                    <el-tab-pane
+                            v-for="(item, index) in editableTabs2"
+                            :key="item.name"
+                            :label="item.title"
+                            :name="item.name"
+                            :urlTag="item"
+                    >
+                        <!--{{item.content}}-->
+                        <router-view></router-view>
+                    </el-tab-pane>
+                </el-tabs>
+
+
+
             <div class="indexPage" v-if="indexPage">
                 <h3>骏然CRM网络平台粉丝管理系统</h3>
                 <h4>欢迎您！</h4>
                 <h1>{{Time | filtTime}}</h1>
 
-
-                <div>
+                <div style="display: flex;justify-content:center;">
                     <div style="margin: 2%">
                         <div class="prompt">
-                            <p style="background-color: red;width: 50px;height: 25px"></p>
-                            <p>已取关</p>
+                            <p style="background-color: red;width: 50px;height: 15px"></p>
+                            <p>已取关({{attNum}})</p>
                         </div>
-
                         <div class="prompt">
-                            <p style="background-color:#20a0ff;width: 50px;height: 25px"></p>
-                            <p>已关注</p>
+                            <p style="background-color:#20a0ff;width: 50px;height: 15px"></p>
+                            <p>已关注({{proNum}})</p>
+                        </div>
+                        <div class="prompt">
+                            <p style="background-color:green;width: 50px;height: 15px"></p>
+                            <p>总人数({{peopleNum}})</p>
                         </div>
 
                     </div>
 
 
-                    <div>
-                        <el-progress type="circle" :percentage="1" color="red"></el-progress>
-                        <el-progress type="circle" :percentage="99" color="#20a0ff"></el-progress>
-
+                    <div style="display: flex;justify-content: space-around;width: 50%;align-items: center">
+                        <el-progress type="circle" :percentage="attention" color="red"></el-progress>
+                        <el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>
+                        <el-progress type="circle" :percentage="100" color="green"></el-progress>
                     </div>
                 </div>
 
@@ -126,12 +136,13 @@
 
     .el-aside {
         color: #333;
-        height: 99.8vh;
+       height: calc( 100vh - 50px );
     }
 
     .el-main {
         border: none;
     }
+
 
     .hhtx-guanli, .hhtx-weixinguanli, .hhtx-huodongguanli {
         margin-right: 10px;
@@ -143,7 +154,6 @@
         display: flex;
         justify-content: space-between
     }
-
 </style>
 
 <script>
@@ -177,7 +187,15 @@
                 ],
                 tabIndex: 0,
                 indexPage: true,
-                Time: new Date()
+                Time: new Date(),
+                Tabs: false,
+                Focus: 0,//已关注%
+                attention: 0,//取关人数%
+                peopleNum: 0,//全部人数%
+
+                attNum: 0,//取关
+                proNum: 0,//关注
+                menHeight:0,//左侧菜单高度
             }
         },
         filters: {
@@ -199,6 +217,7 @@
             //新增选项卡
             addTab(Tagname) {
                 this.indexPage = false;
+                this.Tabs = true;
                 let newTabName = ++this.tabIndex + '';
                 this.editableTabs2.push({
                     title: Tagname,
@@ -252,17 +271,57 @@
                 this.$router.push('./')
             }
 
+
         }
         ,
         created: function () {
 
             this.name = this.$cookies.get('name');
             let that = this
-
             setInterval(function () {
-                that.Time=new Date()
-            }, 1000)
-        }
+                that.Time = new Date()
+            }, 1000);
+
+
+            //全部人数
+            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+                headers: {token: this.$cookies.get('token')},
+                params: {size: 999999}
+            }).then(res => {
+                console.log(res.data)
+                this.peopleNum = res.data.count
+            })
+
+
+            //关注人数
+            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+                headers: {token: this.$cookies.get('token')},
+                params: {size: 999999, subscribe: 1}
+            }).then(res => {
+                this.proNum = res.data.count
+                //加上三目运算，防止出现infinity
+                this.Focus = this.peopleNum == 0 ? 1 : res.data.count / this.peopleNum * 100
+
+            })
+
+
+            //取注人数
+            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+                headers: {token: this.$cookies.get('token')},
+                params: {size: 999999, subscribe: 0}
+            }).then(res => {
+                this.attNum = res.data.count
+                this.attention = this.peopleNum == 0 ? 0 : res.data.count / this.peopleNum * 100
+            })
+
+                this.menHeight=window.innerHeight-50
+            // Focus:0,//已关注
+            //     attention:0,//取关人数
+            //     Num:0,//全部人数
+
+
+        },
+
     }
     ;
 </script>

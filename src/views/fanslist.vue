@@ -64,77 +64,85 @@
             <span slot="footer" class="dialog-footer"></span>
         </el-dialog>
 
-    <template>
-        <el-table
-                :data="fans"
-                style="width: 100%"
+        <template>
+            <el-table
+                    :data="fans"
+                    style="width: 100%"
+                    v-loading="loading"
 
-        >
-            <el-table-column
-                    fixed
-                    prop="headimgurl"
-                    label="头像"
-                    width="80">
-                <template scope="scope">
-                    <img :src="scope.row.headimgurl" width="100" height="100"/>
-                </template>
-
-            </el-table-column>
-            <el-table-column
-                    prop="nickname"
-                    label="昵称"
-                    width="120">
-            </el-table-column>
-            <el-table-column
-                    label="地区"
-                    width="120">
-                <template slot-scope="scope">
-                    {{scope.row.province}}{{scope.row.city}}
-                </template>
-
-            </el-table-column>
-            <el-table-column
-                    prop="sex"
-                    label="性别"
-                    width="120">
-            </el-table-column>
-            <el-table-column
-                    prop="subscribe"
-                    label="状态"
-                    width="70">
-            </el-table-column>
-            <el-table-column
-                    prop="subscribeScene"
-                    label="关注来源"
-                    width="120">
-            </el-table-column>
-            <el-table-column
-                    prop="subscribeTime"
-                    label="关注时间"
-                    width="100">
-            </el-table-column>
-
-            <el-table-column
-                    label="标签"
-                    width="120"
             >
-                <template slot-scope="scope">
-                    <el-tag v-for="item in scope.row.tag">{{item.name}}</el-tag>
+                <el-table-column
+                        fixed
+                        prop="headimgurl"
+                        label="头像"
+                        width="80"
+                        align="center">
+                    <template scope="scope">
+                        <img :src="scope.row.headimgurl" width="100" height="100"/>
+                    </template>
 
-                </template>
-            </el-table-column>
+                </el-table-column>
+                <el-table-column
+                        prop="nickname"
+                        label="昵称"
+                        width="180"
+                        align="center">
+                </el-table-column>
+                <el-table-column
+                        label="地区"
+                        width="160"
+                        align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.province}}{{scope.row.city}}
+                    </template>
+
+                </el-table-column>
+                <el-table-column
+                        prop="sex"
+                        label="性别"
+                        width="120"
+                        align="center">
+                </el-table-column>
+                <el-table-column
+                        prop="subscribe"
+                        label="状态"
+                        width="70"
+                        align="center">
+                </el-table-column>
+                <el-table-column
+                        prop="subscribeScene"
+                        label="关注来源"
+                        width="180"
+                        align="center">
+                </el-table-column>
+                <el-table-column
+                        prop="subscribeTime"
+                        label="关注时间"
+                        align="center">
+                </el-table-column>
+
+                <el-table-column
+                        label="标签"
+                        width="120"
+                        align="center"
+                >
+                    <template slot-scope="scope">
+                        <el-tag v-for="item in scope.row.tag">{{item.name}}</el-tag>
+
+                    </template>
+                </el-table-column>
 
 
-            <el-table-column
-                    label="操作"
-                    width="120">
-                <template scope="scope">
-                    <el-button @click="a(scope.row)">添加标签</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-    </template>
-
+                <el-table-column
+                        label="操作"
+                        width="120"
+                        align="center">
+                    <template scope="scope">
+                        <el-button @click="a(scope.row)">添加标签</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
 
 
         <el-dialog
@@ -203,7 +211,8 @@
                 fanTag: [],//粉丝标签
                 username: '',//搜索用户名
                 searchState: '',//搜索状态
-                searchTagId: ''//搜索标签ID
+                searchTagId: '',//搜索标签ID
+                loading: true
 
             }
         },
@@ -233,6 +242,7 @@
                 }).then(res => {
                     // this.fans.length==0;
                     this.fans = res.data.data
+                    this.loading = false
                 })
 
             },
@@ -409,7 +419,7 @@
                 this.size = res.data.size
                 this.page = res.data.pageCount
                 var data = res.data.data
-
+                this.loading = false
                 for (var i = 0; i < data.length; i++) {
                     for (var j = 0; j < data[i].tag.length; j++) {
                         this.fanTag.push({id: data[i].tag[j].id, name: data[i].tag[j].name})

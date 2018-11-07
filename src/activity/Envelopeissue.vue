@@ -31,6 +31,7 @@
                 style="width: 100%"
                 @selection-change="selChange"
                 border
+                v-loading="loading"
         >
             <el-table-column
                     type="selection"
@@ -119,7 +120,8 @@
                     value: '02',
                     label: '未发送'
                 },],
-                value: ''
+                value: '',
+                loading:true
             }
         },
         methods: {
@@ -155,7 +157,7 @@
                         this.EnveList = res.data.data
                         this.Envcount = res.data.count
                         this.Envsize = res.data.size
-
+                        this.loading = false
                     } else if (res.data.code == 103) {
                         alert('身份验证过期，请重新登录');
                         this.$router.push('./');
@@ -205,7 +207,7 @@
                     this.EnveList = res.data.data
                     this.Envcount = res.data.count
                     this.Envsize = res.data.size
-
+                    this.loading = false
                 } else if (res.data.code == 103) {
                     alert('身份验证过期，请重新登录');
                     this.$router.push('./');

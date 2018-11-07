@@ -38,10 +38,11 @@
                     :data="acditList"
                     style="width: 100%"
                     @selection-change="selChange"
+                    v-loading="loading"
                     border
             >
                 <el-table-column type="expand">
-                    <template slot-scope="props">
+                    <template slot-scope="props"  fixed>
                         <el-form label-position="left" inline class="demo-table-expand">
 
                             <el-form-item label="好评图片">
@@ -137,7 +138,8 @@
                 </el-table-column>
                 <el-table-column
                         type="selection"
-                        align="center">
+                        align="center"
+                        fixed>
                 </el-table-column>
                 <el-table-column
                         prop="activityName"
@@ -213,7 +215,8 @@
                     value: '03',
                     label: '审核拒绝'
                 }],
-                value:''//选择的id
+                value:'',//选择的id
+                loading:true
             }
         },
         methods: {
@@ -228,7 +231,7 @@
                         this.acditList = res.data.data
                         this.count = res.data.count
                         this.size = res.data.size
-
+                        this.loading = false
                     } else if (res.data.code == 103) {
                         alert('身份验证过期，请重新登录');
                         this.$router.push('./');
@@ -330,7 +333,7 @@
                     this.acditList = res.data.data
                     this.count = res.data.count
                     this.size = res.data.size
-
+                    this.loading = false
                 } else if (res.data.code == 103) {
                     alert('身份验证过期，请重新登录');
                     this.$router.push('./');
