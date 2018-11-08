@@ -1,68 +1,84 @@
 <template>
     <el-container>
-        <el-header
-                style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
-            <span style="font-size: 1rem;font-weight: bold">骏然SCRM</span>
-            <span style="" @click="logout">{{name}} 退出</span>
-        </el-header>
-        <el-container style="width: 100%;">
-            <el-aside style="background-color: #393d49;width:200px;">
-                <el-menu style="background-color:#393d49">
-                    <el-menu-item index="0" style="font-size: 1rem;color: #ffffff" @click="Tabs=false;indexPage=true">
-                        <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
-                        <span slot="title">首&nbsp;&nbsp;页</span>
-                    </el-menu-item>
+        <!--头部-->
 
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i class="fontFamily hhtx-guanli"></i>
-                            <span style="font-size: 1rem;color: #ffffff">系统管理</span>
-                        </template>
-                        <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理')"><span
-                                    class="fontstyle">管理员管理</span></el-menu-item>
-                            <el-menu-item index="1-2" @click="$router.push('operationList');addTab('操作日志')"><span
-                                    class="fontstyle">操作日志</span>
-                            </el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-
-                    <el-submenu index="2">
-                        <template slot="title">
-                            <i class="fontFamily hhtx-weixinguanli"></i>
-                            <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
-                        <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表')"><span
-                                    class="fontstyle">粉丝列表</span></el-menu-item>
-                            <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置')"><span
-                                    class="fontstyle">微信设置</span>
-                            </el-menu-item>
-                        </el-menu-item-group>
-
-                    </el-submenu>
-                    <el-submenu index="3">
-                        <template slot="title">
-                            <i class="fontFamily hhtx-huodongguanli"></i>
-                            <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
-                        <el-menu-item-group style="background-color: #282b33">
-                            <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表')"><span
-                                    class="fontstyle">活动列表</span></el-menu-item>
-                            <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表')"><span
-                                    class="fontstyle">红包列表</span></el-menu-item>
-                            <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核')"><span
-                                    class="fontstyle">活动审核</span>
-                            </el-menu-item>
-                            <el-menu-item index="3-4" @click="$router.push('Envelopeissue');addTab('红包发放')"><span
-                                    class="fontstyle">红包发放</span>
-                            </el-menu-item>
-                        </el-menu-item-group>
-
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
+        <div class="header">
+            <el-header
+                    style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
+                <span style="font-size: 1rem;font-weight: bold">骏然SCRM</span>
+                <span style="" @click="logout">{{name}} 退出</span>
+            </el-header>
+        </div>
 
 
-                <el-tabs v-model="editableTabsValue2"type="card" closable @tab-remove="removeTab" @tab-click="handleClick"
+        <!--中间-->
+        <div id="index">
+
+            <!--左侧菜单-->
+            <div style="width: 200px;height: 100%;background-color: #393d49;">
+                <el-aside style="background-color: #393d49;width:200px;">
+                    <el-menu style="background-color:#393d49">
+                        <el-menu-item index="0" style="font-size: 1rem;color: #ffffff"
+                                      @click="Tabs=false;indexPage=true">
+                            <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
+                            <span slot="title">首&nbsp;&nbsp;页</span>
+                        </el-menu-item>
+
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="fontFamily hhtx-guanli"></i>
+                                <span style="font-size: 1rem;color: #ffffff">系统管理</span>
+                            </template>
+                            <el-menu-item-group style="background-color: #282b33">
+                                <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理')"><span
+                                        class="fontstyle">管理员管理</span></el-menu-item>
+                                <el-menu-item index="1-2"
+                                              @click="$router.push('operationList');addTab('操作日志')"><span
+                                        class="fontstyle">操作日志</span>
+                                </el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="fontFamily hhtx-weixinguanli"></i>
+                                <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
+                            <el-menu-item-group style="background-color: #282b33">
+                                <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表')"><span
+                                        class="fontstyle">粉丝列表</span></el-menu-item>
+                                <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置')"><span
+                                        class="fontstyle">微信设置</span>
+                                </el-menu-item>
+                            </el-menu-item-group>
+
+                        </el-submenu>
+                        <el-submenu index="3">
+                            <template slot="title">
+                                <i class="fontFamily hhtx-huodongguanli"></i>
+                                <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
+                            <el-menu-item-group style="background-color: #282b33">
+                                <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表')"><span
+                                        class="fontstyle">活动列表</span></el-menu-item>
+                                <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表')"><span
+                                        class="fontstyle">红包列表</span></el-menu-item>
+                                <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核')"><span
+                                        class="fontstyle">活动审核</span>
+                                </el-menu-item>
+                                <el-menu-item index="3-4"
+                                              @click="$router.push('Envelopeissue');addTab('红包发放')"><span
+                                        class="fontstyle">红包发放</span>
+                                </el-menu-item>
+                            </el-menu-item-group>
+
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+            </div>
+
+            <!--右侧内容-->
+            <div style="width: 100%;height: 100%;overflow: auto">
+                <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab"
+                         @tab-click="handleClick"
                          v-if="Tabs" style="width: 85%">
                     <el-tab-pane
                             v-for="(item, index) in editableTabs2"
@@ -71,48 +87,54 @@
                             :name="item.name"
                             :urlTag="item"
                     >
-                        <!--{{item.content}}-->
                         <router-view></router-view>
                     </el-tab-pane>
                 </el-tabs>
+                <div class="indexPage" v-if="indexPage">
+                    <h3>骏然CRM网络平台粉丝管理系统</h3>
+                    <h4>欢迎您！</h4>
+                    <h1>{{Time | filtTime}}</h1>
 
+                    <div style="display: flex;justify-content:center;">
+                        <div style="margin: 2%">
+                            <div class="prompt">
+                                <p style="background-color: red;width: 50px;height: 15px"></p>
+                                <p>已取关({{attNum}})</p>
+                            </div>
+                            <div class="prompt">
+                                <p style="background-color:#20a0ff;width: 50px;height: 15px"></p>
+                                <p>已关注({{proNum}})</p>
+                            </div>
+                            <div class="prompt">
+                                <p style="background-color:green;width: 50px;height: 15px"></p>
+                                <p>总人数({{peopleNum}})</p>
+                            </div>
 
-
-            <div class="indexPage" v-if="indexPage">
-                <h3>骏然CRM网络平台粉丝管理系统</h3>
-                <h4>欢迎您！</h4>
-                <h1>{{Time | filtTime}}</h1>
-
-                <div style="display: flex;justify-content:center;">
-                    <div style="margin: 2%">
-                        <div class="prompt">
-                            <p style="background-color: red;width: 50px;height: 15px"></p>
-                            <p>已取关({{attNum}})</p>
                         </div>
-                        <div class="prompt">
-                            <p style="background-color:#20a0ff;width: 50px;height: 15px"></p>
-                            <p>已关注({{proNum}})</p>
-                        </div>
-                        <div class="prompt">
-                            <p style="background-color:green;width: 50px;height: 15px"></p>
-                            <p>总人数({{peopleNum}})</p>
-                        </div>
 
+
+                        <div style="display: flex;justify-content: space-around;width: 50%;align-items: center">
+                            <el-progress type="circle" :percentage="attention" color="red"></el-progress>
+                            <el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>
+                            <el-progress type="circle" :percentage="100" color="green"></el-progress>
+                        </div>
                     </div>
 
 
-                    <div style="display: flex;justify-content: space-around;width: 50%;align-items: center">
-                        <el-progress type="circle" :percentage="attention" color="red"></el-progress>
-                        <el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>
-                        <el-progress type="circle" :percentage="100" color="green"></el-progress>
-                    </div>
                 </div>
-
-
             </div>
-            <!--<router-view></router-view>-->
 
-        </el-container>
+        </div>
+
+
+        <!--底部-->
+        <div class="footer">
+            <el-footer class="el-footer" height="30">
+                Copyright 2018 yueweidianshan.AllRightsReserved.
+            </el-footer>
+        </div>
+
+
     </el-container>
 
 </template>
@@ -121,6 +143,33 @@
 <style>
     .indexPage {
         width: 100%;
+
+    }
+
+    .header {
+        position: absolute;
+        height: 80px;
+        width: 100%;
+        z-index: 999;
+
+        /*opacity: 0;*/
+    }
+
+    #index {
+        width: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        top: 50px;
+        bottom: 35px
+    }
+
+    .footer {
+        width: 100%;
+        line-height: 35px;
+        position: absolute;
+        bottom: 0;
+        z-index: 99;
 
     }
 
@@ -136,13 +185,12 @@
 
     .el-aside {
         color: #333;
-       height: calc( 100vh - 50px );
+        /*height: calc( 100vh - 80px );*/
     }
 
     .el-main {
         border: none;
     }
-
 
     .hhtx-guanli, .hhtx-weixinguanli, .hhtx-huodongguanli {
         margin-right: 10px;
@@ -153,6 +201,12 @@
         width: 100px;
         display: flex;
         justify-content: space-between
+    }
+
+    .el-footer {
+        color: #f8f8f8;
+        background-color: #393d49;
+        width: 100%;
     }
 </style>
 
@@ -195,7 +249,7 @@
 
                 attNum: 0,//取关
                 proNum: 0,//关注
-                menHeight:0,//左侧菜单高度
+                menHeight: 0,//左侧菜单高度
             }
         },
         filters: {
@@ -314,7 +368,7 @@
                 this.attention = this.peopleNum == 0 ? 0 : res.data.count / this.peopleNum * 100
             })
 
-                this.menHeight=window.innerHeight-50
+            this.menHeight = window.innerHeight - 50
             // Focus:0,//已关注
             //     attention:0,//取关人数
             //     Num:0,//全部人数

@@ -1,7 +1,7 @@
 <template>
     <div class="admin_list">
         <template>
-            <div style="text-align: left;padding:0.5%">
+            <div style="text-align: left;padding:0.5%" ref="topHeight">
                 <el-input style="width: 20%" v-model="adminName" placeholder="根据用户名搜索"></el-input>
                 <el-button @click="search">搜索</el-button>
                 <el-button @click="addAdmin=true" v-if="showAdd">添加</el-button>
@@ -17,63 +17,60 @@
                 <el-input v-model="addusername" style="margin: 1%" placeholder="用户昵称"></el-input>
                 <el-input v-model="addpassword" style="margin: 1%" placeholder="用户密码"></el-input>
                 <el-input v-model="addpasswords" style="margin: 1%" placeholder="确认密码"></el-input>
-
                 <el-button style="margin: 1%" @click="addAdmin = false">取 消</el-button>
                 <el-button style="margin: 1%" type="primary" @click="addadmin">确 定</el-button>
 
             </el-dialog>
 
+            <el-table
+                    :data="intel"
+                    style="width: 100%;"
+                    v-loading="loading"
+                    ref="table"
+                    class="tableSty"
 
-                    <el-table
-                            :data="intel"
-                            style="width: 100%"
-                            v-loading="loading"
-                    >
-                        <el-table-column
-                                prop="createTime"
-                                label="添加时间"
-                                width="260"
-                                align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="name"
-                                label="昵称"
-                                width="180"
-                                align="center"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="username"
-                                label="账号"
-                                align="center"
-                                width="180"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="password"
-                                label="密码"
-                                align="center"
-                                width="230"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                label="操作"
-                                align="center"
-                                width="180"
-                        >
-                            <template slot-scope="scope">
-                                <el-button type="text" size="small" @click="handleClick(scope.row),dialogVisible = true,update">
-                                    修改
-                                </el-button>
-                            </template>
+            >
+                <el-table-column
+                        prop="createTime"
+                        label="添加时间"
+                        align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="昵称"
 
-                        </el-table-column>
-                    </el-table>
+                        align="center"
+                >
+                </el-table-column>
+                <el-table-column
+                        prop="username"
+                        label="账号"
+                        align="center"
 
+                >
+                </el-table-column>
+                <el-table-column
+                        prop="password"
+                        label="密码"
+                        align="center"
 
+                >
+                </el-table-column>
+                <el-table-column
+                        label="操作"
+                        align="center"
 
+                >
+                    <template slot-scope="scope">
+                        <el-button type="text" size="small"
+                                   @click="handleClick(scope.row),dialogVisible = true,update">
+                            修改
+                        </el-button>
+                    </template>
 
+                </el-table-column>
+            </el-table>
 
 
         </template>
@@ -91,7 +88,7 @@
     <el-button type="primary" @click="yes">确 定</el-button>
   </span>
         </el-dialog>
-        <div class="block">
+        <div class="block" ref="pageheight">
             <el-pagination
                     @current-change="handleCurrentChange"
                     layout="prev, pager, next"
@@ -124,7 +121,10 @@
                 addpassword: '',
                 addpasswords: '',
                 showAdd: true,//判断登录员身份，是否显示添加管理员按钮
-                loading: true
+                loading: true,
+                tableHeight: 0,//表格高度
+                topHeight: 0,//搜索栏高度
+                pageheight: 0,//分页高度
 
             }
         },
@@ -163,7 +163,6 @@
                         username: this.adminName
                     }
                 }).then(res => {
-                    console.log(res.data)
                     this.intel = res.data.data
                 })
 
@@ -276,15 +275,21 @@
                 })
             }
 
-
         },
+
     }
 </script>
 
 
 <style scoped>
     .admin_list {
-
+        height: 100%;
+        width: 100%;
     }
 
+.tableSty{
+    /*height: calc(100vh - 260px);*/
+    /*overflow: auto;*/
+    height: 100%;
+}
 </style>

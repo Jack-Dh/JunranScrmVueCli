@@ -1,74 +1,105 @@
 <template>
-    <div class="admin_list">
-        <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)">
-            {{tag}}
-        </el-tag>
-        <el-input
-                class="input-new-tag"
-                v-if="inputVisible"
-                v-model="inputValue"
-                ref="saveTagInput"
-                size="small"
-                @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm"
-        >
-        </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-    </div>
+    <el-container style="height: 500px; border: 1px solid #eee">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+            <el-menu :default-openeds="['1', '3']">
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-message"></i>导航一</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="1-1">选项1</el-menu-item>
+                        <el-menu-item index="1-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="1-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="1-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="2-1">选项1</el-menu-item>
+                        <el-menu-item index="2-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="2-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="2-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+                    <el-menu-item-group>
+                        <template slot="title">分组一</template>
+                        <el-menu-item index="3-1">选项1</el-menu-item>
+                        <el-menu-item index="3-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                        <el-menu-item index="3-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="3-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+
+        <el-container>
+            <el-header style="text-align: right; font-size: 12px">
+                <el-dropdown>
+                    <i class="el-icon-setting" style="margin-right: 15px"></i>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>查看</el-dropdown-item>
+                        <el-dropdown-item>新增</el-dropdown-item>
+                        <el-dropdown-item>删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+                <span>王小虎</span>
+            </el-header>
+
+            <el-main>
+                <el-table :data="tableData">
+                    <el-table-column prop="date" label="日期" width="140">
+                    </el-table-column>
+                    <el-table-column prop="name" label="姓名" width="120">
+                    </el-table-column>
+                    <el-table-column prop="address" label="地址">
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </el-container>
 </template>
+
+<style>
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        color: #333;
+    }
+</style>
 
 <script>
     export default {
         data() {
-            return {
-                dynamicTags: ['标签一', '标签二', '标签三'],
-                inputVisible: false,
-                inputValue: ''
+            const item = {
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
             };
-        },
-        methods: {
-            handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-            },
-
-            showInput() {
-                this.inputVisible = true;
-                this.$nextTick(_ => {
-                    this.$refs.saveTagInput.$refs.input.focus();
-                });
-            },
-
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    this.dynamicTags.push(inputValue);
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
+            return {
+                tableData: Array(20).fill(item)
             }
         }
-    }
+    };
 </script>
-
-<style>
-    .el-tag + .el-tag {
-        margin-left: 10px;
-    }
-    .button-new-tag {
-        margin-left: 10px;
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    .input-new-tag {
-        width: 90px;
-        margin-left: 10px;
-        vertical-align: bottom;
-    }
-</style>

@@ -1,0 +1,25 @@
+﻿*{margin:0;padding: 0;list-style: none; }
+html,body {-webkit-overflow-scrolling: touch;max-width:100% !important; min-height: 100% !important; font-size: 0.25rem; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;}
+a{list-style: none; text-decoration:none;outline: none; -webkit-tap-highlight-color: rgba(0,0,0,0);}
+/*去除苹果设备默认属性*/
+input[type="button"],input[type="submit"],input[type="reset"],input[type="text"],input[type="tel"],button{-webkit-appearance: none;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {  -webkit-appearance: none !important;  margin: 0; }
+textarea{-webkit-appearance:none;border-radius:0;}
+/*去除Chrome等浏览器文本框默认发光边框*/
+input:focus,textarea:focus,button:focus{outline:none;}
+.boxsizing{box-sizing: border-box;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;}
+.clearfix:after{content:" ";display:block;height:0;clear:both;visibility:hidden}
+img{border:0;vertical-align:middle}
+a img,img{-ms-interpolation-mode:bicubic}
+ul::-webkit-scrollbar {display: none}
+em{font-style: normal}
+.parent:after{clear: both;  content: ''; display: block;}/*清除浮动*/
+/*点击按钮下按*/
+.nowbtn{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;/*取消长按复制*/}
+.nowbtn:active{-webkit-transform:scale(0.95);transform:scale(0.95);}
+.g-btn{text-align: center;margin-top: 0.1rem}
+.g-btn a{padding: 0.14rem 0.37rem;border-radius: 0.5rem;background: #8d704a;color:#fff;font-size: 0.27rem;margin: 0 0.2rem}
+/*******************自己css内容*************************/
+
+
+  
