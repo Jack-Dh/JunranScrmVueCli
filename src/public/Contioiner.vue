@@ -79,7 +79,8 @@
             <div style="width: 100%;height: 100%;overflow: auto">
                 <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab"
                          @tab-click="handleClick"
-                         v-if="Tabs" style="width: 85%">
+                         v-if="Tabs" style="width: 85%"
+                >
                     <el-tab-pane
                             v-for="(item, index) in editableTabs2"
                             :key="item.name"
@@ -231,7 +232,7 @@
             return {
                 tableData: Array(20).fill(item),
                 activeName: 'second',
-                editableTabsValue2: '1',
+                editableTabsValue2: 1,
                 editableTabs2: [
                     //     {
                     //     title: '管理员管理',
@@ -250,6 +251,7 @@
                 attNum: 0,//取关
                 proNum: 0,//关注
                 menHeight: 0,//左侧菜单高度
+                tagsname:[],//已有的菜单
             }
         },
         filters: {
@@ -271,14 +273,32 @@
             //新增选项卡
             addTab(Tagname) {
                 this.indexPage = false;
-                this.Tabs = true;
-                let newTabName = ++this.tabIndex + '';
-                this.editableTabs2.push({
-                    title: Tagname,
-                    name: newTabName,
-                    content: this.$route.path
-                });
-                this.editableTabsValue2 = newTabName;
+                
+                for (var i = 0; i < this.editableTabs2.length; i++){
+                    this.tagsname.push(this.editableTabs2[i].title)
+                }
+                //判断选项卡中是否已有打开的菜单
+                if (this.tagsname.indexOf(Tagname)==-1){
+
+                    this.Tabs = true;
+                    let newTabName = ++this.tabIndex + '';
+                    this.editableTabs2.push({
+                        title: Tagname,
+                        name: newTabName,
+                        content: this.$route.path
+                    });
+                    this.editableTabsValue2 = newTabName;
+                    console.log(newTabName)
+                }else {
+                    //循环数组，找到存在数组中的元素，并让选项卡显示当前选中的页面
+                    var num
+                     this.editableTabs2.forEach((element,index)=>{
+                        if (element.title==Tagname) {
+                            num=index+1
+                        }
+                    })
+                    this.editableTabsValue2=num.toString()
+                }
 
             },
 
