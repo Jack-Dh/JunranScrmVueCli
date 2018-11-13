@@ -5,7 +5,7 @@
         <div class="header">
             <el-header
                     style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
-                <span style="font-size: 1rem;font-weight: bold">骏然SCRM</span>
+                <span style="font-size: 1rem;font-weight: bold">骏然CRM</span>
                 <span style="" @click="logout">{{name}} 退出</span>
             </el-header>
         </div>
@@ -76,7 +76,7 @@
             </div>
 
             <!--右侧内容-->
-            <div style="width: 100%;height: 100%;overflow: auto">
+            <div style="width: 100%;height: 100%;overflow: auto;">
                 <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab"
                          @tab-click="handleClick"
                          v-if="Tabs" style="width: 85%"
@@ -149,7 +149,7 @@
 
     .header {
         position: absolute;
-        height: 80px;
+        height: 50px;
         width: 100%;
         z-index: 999;
 
@@ -162,7 +162,7 @@
         display: flex;
         justify-content: space-between;
         top: 50px;
-        bottom: 35px
+        bottom: 35px;
     }
 
     .footer {
@@ -273,14 +273,14 @@
             //新增选项卡
             addTab(Tagname) {
                 this.indexPage = false;
-                
+                this.Tabs = true;
                 for (var i = 0; i < this.editableTabs2.length; i++){
                     this.tagsname.push(this.editableTabs2[i].title)
                 }
                 //判断选项卡中是否已有打开的菜单
                 if (this.tagsname.indexOf(Tagname)==-1){
 
-                    this.Tabs = true;
+
                     let newTabName = ++this.tabIndex + '';
                     this.editableTabs2.push({
                         title: Tagname,

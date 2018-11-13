@@ -9,35 +9,34 @@
             >
 
                 <el-table-column
+                type="index"
+                label="序号"
+                ></el-table-column>
+                <el-table-column
                         prop="module"
                         label="操作模块"
-                        width="180"
                         align="center"
                 >
                 </el-table-column>
                 <el-table-column
                         prop="operation"
                         label="操作描述"
-                        width="180"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="updateTime"
                         label="操作时间"
-                        width="300"
                         align="center"
                 >
                 </el-table-column>
                 <el-table-column
                         prop="operation"
                         label="操作内容"
-                        width="180"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="operatorName"
                         label="操作人"
-                        width="180"
                         align="center">
                 </el-table-column>
                 <el-table-column

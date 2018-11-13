@@ -73,9 +73,12 @@
             >
                 <el-table-column
                         fixed
+                        label="序号"
+                        type="index"></el-table-column>
+                <el-table-column
+
                         prop="headimgurl"
                         label="头像"
-                        width="80"
                         align="center">
                     <template scope="scope">
                         <img :src="scope.row.headimgurl" width="100" height="100"/>
@@ -85,12 +88,11 @@
                 <el-table-column
                         prop="nickname"
                         label="昵称"
-                        width="180"
+
                         align="center">
                 </el-table-column>
                 <el-table-column
                         label="地区"
-                        width="160"
                         align="center">
                     <template slot-scope="scope">
                         {{scope.row.province}}{{scope.row.city}}
@@ -100,19 +102,16 @@
                 <el-table-column
                         prop="sex"
                         label="性别"
-                        width="120"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="subscribe"
                         label="状态"
-                        width="70"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="subscribeScene"
                         label="关注来源"
-                        width="180"
                         align="center">
                 </el-table-column>
                 <el-table-column
@@ -123,7 +122,6 @@
 
                 <el-table-column
                         label="标签"
-                        width="120"
                         align="center"
                 >
                     <template slot-scope="scope">
@@ -135,7 +133,6 @@
 
                 <el-table-column
                         label="操作"
-                        width="120"
                         align="center">
                     <template scope="scope">
                         <el-button @click="a(scope.row)">添加标签</el-button>
@@ -148,7 +145,6 @@
         <el-dialog
                 title="添加标签"
                 :visible.sync="dialogTag"
-                width="30%"
                 :before-close="handleTag">
             <!--<span slot="footer" class="dialog-footer">-->
 

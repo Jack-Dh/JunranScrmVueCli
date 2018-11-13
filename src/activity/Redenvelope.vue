@@ -45,6 +45,7 @@
                     border
                     @selection-change="selectChange"
                     v-loading="loading"
+
             >
 
                 <el-table-column type="expand"  fixed>
@@ -79,25 +80,27 @@
                 <el-table-column
                         fixed
                         type="selection"
-                        width="60"
                         align="center">
+                </el-table-column>
+                <el-table-column
+                type="index"
+                label="序号"
+                align="center"
+                >
                 </el-table-column>
                 <el-table-column
                         prop="actName"
                         label="活动名称"
-                        width="260"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="name"
                         label="红包名称"
-                        width="260"
                         align="center">
                 </el-table-column>
                 <el-table-column
                         prop="sendName"
                         label="商户名称"
-                        width="260"
                         align="center"
                 >
                 </el-table-column>
@@ -105,7 +108,6 @@
                 <el-table-column
                         label="状态"
                         align="center"
-                        width="100"
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <span><i :class="scope.row.state=='01'?'el-icon-check':'el-icon-close'"></i></span>
@@ -115,7 +117,6 @@
                         prop="totalAmount"
                         label="红包金额(元)"
                         align="center"
-                        width="160"
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <span>{{scope.row.totalAmount/100}}</span>
@@ -124,7 +125,6 @@
                 <el-table-column
                         label="操作"
                         align="center"
-
                         show-overflow-tooltip>
                     <template slot-scope="scope">
                         <el-button type="text" @click="redTagg(scope.row.id,scope.row.state)">停用启用</el-button>

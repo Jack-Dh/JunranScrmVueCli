@@ -38,9 +38,13 @@
                     align="center"
             ></el-table-column>
             <el-table-column
+            type="index"
+            label="序号"
+            align="center"
+            ></el-table-column>
+            <el-table-column
                     prop="activityName"
                     label="活动名称"
-                    width="230"
                     align="center"
             ></el-table-column>
             <el-table-column
@@ -52,7 +56,6 @@
                     prop="redPacksendTime"
                     label="发送时间"
                     align="center"
-                    width="280"
             ></el-table-column>
 
             <el-table-column

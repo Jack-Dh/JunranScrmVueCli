@@ -90,7 +90,7 @@
                 v-loading="loading"
                 @selection-change="handleSelectionChange">
             >
-            <el-table-column type="expand" fixed>
+            <el-table-column type="expand">
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                         <el-form-item>
@@ -128,12 +128,17 @@
                 </template>
             </el-table-column>
 
+            <el-table-column
+            type="index"
+            label="序号"
+            align="center"
+            >
+            </el-table-column>
+
 
             <el-table-column
                     type="selection"
-                    width="50"
                     align="center"
-                    fixed
             >
             </el-table-column>
 
@@ -148,25 +153,18 @@
 
 
             <el-table-column
-
                     prop="activityName"
                     label="活动名称"
-
                     align="center"
             ></el-table-column>
-
             <el-table-column
-
                     prop="award"
                     label="活动奖励"
-                    width="280"
                     align="center"
             ></el-table-column>
 
             <el-table-column
-
                     label="参与人数"
-                    width="150"
                     align="center"
             >
                 <template slot-scope="scope">
@@ -176,37 +174,27 @@
             </el-table-column>
 
             <el-table-column
-
                     label="状态"
                     align="center"
-                    width="120"
             >
                 <template slot-scope="scope">
                     <span><i :class="scope.row.state=='01'?'el-icon-check':'el-icon-close'"></i></span>
                 </template>
             </el-table-column>
-
-
             <el-table-column
-
                     prop="createTime"
                     label="开始时间"
-                    width="260"
                     align="center"
             ></el-table-column>
 
             <el-table-column
-
                     prop="endTime"
                     label="结束时间"
-                    width="260"
                     align="center"
             ></el-table-column>
 
             <el-table-column
-
                     label="操作"
-                    width="180"
                     align="center"
             >
                 <template slot-scope="scope">
@@ -229,7 +217,6 @@
         <el-dialog
                 title="修改活动"
                 :visible.sync="upcti"
-                width="30%"
                 :before-close="handleClose">
 
 

@@ -142,16 +142,19 @@
                         fixed>
                 </el-table-column>
                 <el-table-column
+                type="index"
+                label="序号"
+                align="center"
+                ></el-table-column>
+                <el-table-column
                         prop="activityName"
                         label="活动名称"
-                        width="180"
                         align="center"
                 >
                 </el-table-column>
                 <el-table-column
                         prop="nickname"
                         label="粉丝昵称"
-                        width="180"
                         align="center">
                 </el-table-column>
                 <el-table-column
@@ -164,7 +167,7 @@
                 <el-table-column
                         label="状态"
                         align="center"
-                        width="130">
+                       >
                     <template slot-scope="scope">
                         {{scope.row.state=='01'?'待审核':(scope.row.state=='02'?'审核通过':'审核拒绝')}}
                     </template>

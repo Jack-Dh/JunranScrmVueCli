@@ -5,7 +5,7 @@
         <!--<div class="login"></div>-->
 
         <div class="login_back">
-            <p>骏然SCRM系统</p>
+            <p>骏然CRM系统</p>
 
             <el-input  placeholder="请输入用户名" v-model="username"></el-input>
             <el-input  placeholder="请输入密码" v-model="password" type="password"></el-input>
