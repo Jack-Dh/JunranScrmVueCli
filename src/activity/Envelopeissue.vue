@@ -21,9 +21,8 @@
                         :value="item.value">
                 </el-option>
             </el-select>
-
-
             <el-button @click="search">搜索</el-button>
+            <el-button @click="sendRed">批量发送</el-button>
         </div>
 
         <el-table
@@ -38,9 +37,9 @@
                     align="center"
             ></el-table-column>
             <el-table-column
-            type="index"
-            label="序号"
-            align="center"
+                    type="index"
+                    label="序号"
+                    align="center"
             ></el-table-column>
             <el-table-column
                     prop="activityName"
@@ -124,10 +123,12 @@
                     label: '未发送'
                 },],
                 value: '',
-                loading:true
+                loading: true,
+                stater: [],//获取多选时候红包的状态
             }
         },
         methods: {
+
             //分页
             fenPage: function (page) {
                 this.$http.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
@@ -165,16 +166,36 @@
                         alert('身份验证过期，请重新登录');
                         this.$router.push('./');
                     }
-
                 })
-
             },
             //多选获取到的数据
             selChange: function (val) {
                 this.RedId.length = 0;
+                this.stater.length = 0;
                 for (var i = 0; i < val.length; i++) {
                     this.RedId.push(val[i].id)
+                    this.stater.push(val[i].state)
                 }
+                console.log(this.RedId)
+            },
+            //批量发送红包
+            sendRed: function () {
+                var num = '02'
+                if (this.stater.indexOf(num) == -1) {
+                    if (this.RedId.length != 0) {
+                        this.$http.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: this.RedId}, {
+                            headers: {token: this.$cookies.get('token')}
+                        }).then(res => {
+                            console.log(res.data)
+                        })
+                    } else {
+                        alert('您还未选择任何红包！')
+                    }
+                } else {
+                    alert('选中的红包中包含已发送的，请勿重复发送！')
+                }
+
+
             },
             //发送红包
             Issu: function (id, state) {

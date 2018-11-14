@@ -7,8 +7,8 @@
         <div class="login_back">
             <p>骏然CRM系统</p>
 
-            <el-input  placeholder="请输入用户名" v-model="username"></el-input>
-            <el-input  placeholder="请输入密码" v-model="password" type="password"></el-input>
+            <el-input  placeholder="请输入用户名" @keyup.enter.native="login" v-model="username"></el-input>
+            <el-input  placeholder="请输入密码" @keyup.enter.native="login" v-model="password" type="password"></el-input>
             <div class="login_but">
                 <el-button @click="login">登录</el-button>
             </div>

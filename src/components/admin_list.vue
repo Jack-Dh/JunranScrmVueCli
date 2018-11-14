@@ -13,7 +13,17 @@
                     :visible.sync="addAdmin"
                     width="30%"
                     :before-close="handleClose">
-                <el-input v-model="addname" style="margin: 1%" placeholder="用户账号（登录账号）"></el-input>
+                <el-upload
+                        class="avatar-uploader"
+                        action="http://jiajiachuang.cn/junran/manage/keUpload"
+                        name="imgFile"
+                        :headers="myheaders"
+                        :on-success="handleAvatarSuccess"
+                       >
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+ <el-input v-model="addname" style="margin: 1%" placeholder="用户账号（登录账号）"></el-input>
                 <el-input v-model="addusername" style="margin: 1%" placeholder="用户昵称"></el-input>
                 <el-input v-model="addpassword" style="margin: 1%" placeholder="用户密码"></el-input>
                 <el-input v-model="addpasswords" style="margin: 1%" placeholder="确认密码"></el-input>
@@ -79,7 +89,23 @@
                 :visible.sync="dialogVisible"
                 width="280"
                 :before-close="handleClose">
-            <!--<span>这是一段信息</span>-->
+
+            <el-upload
+                    class="avatar-uploader"
+                    action="http://jiajiachuang.cn/junran/manage/keUpload"
+                    name="imgFile"
+                    :headers="myheaders"
+                    :on-success="UpSuccess"
+            >
+                <img v-if="upimageUrl" :src="upimageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+
+
+
+
+
+
             <el-input :value="name" v-model="name" placeholder="请输入昵称"></el-input>
             <el-input :value="username" v-model="username" placeholder="请输入账号"></el-input>
             <el-input :value="password" v-model="password" placeholder="请输入密码" type="password"></el-input>
@@ -125,10 +151,36 @@
                 tableHeight: 0,//表格高度
                 topHeight: 0,//搜索栏高度
                 pageheight: 0,//分页高度
-
+                adminImg:'',//新增传给接口的图片
+                myheaders:'',//请求头
+                imageUrl:'',//新增上传管理员头像地址
+                upimageUrl:'',//修改管理员头像地址
+                upDataImg:'',//修改传给接口的图片
             }
         },
         methods: {
+
+            //添加管理员头像
+            handleAvatarSuccess:function(res,file){
+                this.imageUrl = URL.createObjectURL(file.raw);
+                // this.upimageUrl=URL.createObjectURL(file.raw);
+                this.adminImg=res.url
+
+                console.log(res.url)
+                console.log(file)
+                console.log(this.imageUrl)
+            },
+            //修改管理员头像
+            UpSuccess:function(res,file){
+                // this.imageUrl = URL.createObjectURL(file.raw);
+                this.upimageUrl=URL.createObjectURL(file.raw);
+                this.upDataImg=res.url
+
+                console.log(res.url)
+                console.log(file)
+                console.log(this.imageUrl)
+            },
+
             //确定添加管理员
             addadmin: function () {
                 this.addAdmin = false
@@ -138,7 +190,8 @@
                     this.$http.post('http://jiajiachuang.cn/junran/manage/operator/upsert', JSON.stringify({
                         name: this.addname,
                         password: this.addpassword,
-                        username: this.addusername
+                        username: this.addusername,
+                        icon:this.adminImg
                     }), {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
@@ -203,7 +256,8 @@
                 var username = this.username
                 var id = this.id
                 var pass = this.password
-                var data = JSON.stringify({name: name, username: username, id: id, password: pass})
+                var icon=this.upDataImg
+                var data = JSON.stringify({name: name, username: username, id: id, password: pass,icon:icon})
 
 
                 if (name == '' || username == '' || pass == '') {
@@ -229,6 +283,7 @@
                 this.id = a.id;
                 this.name = a.name;
                 this.username = a.username;
+                this.upimageUrl='http://'+a.icon
 
             },
             handleClose(done) {
@@ -245,6 +300,7 @@
 
         created: function () {
             var name = this.$cookies.get('name')
+            this.myheaders={token:this.$cookies.get('token')}
             if (name != 'admin') {
                 this.showAdd = false
 
@@ -292,4 +348,28 @@
     /*overflow: auto;*/
     height: 100%;
 }
+    .avatar-uploader{border: 1px dashed #d9d9d9;width: 45%}
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
 </style>

@@ -129,11 +129,11 @@
 
 
         <!--底部-->
-        <div class="footer">
-            <el-footer class="el-footer" height="30">
-                Copyright 2018 yueweidianshan.AllRightsReserved.
-            </el-footer>
-        </div>
+        <!--<div class="footer">-->
+            <!--<el-footer class="el-footer" height="30">-->
+                <!--Copyright 2018 yueweidianshan.AllRightsReserved.-->
+            <!--</el-footer>-->
+        <!--</div>-->
 
 
     </el-container>
@@ -162,7 +162,7 @@
         display: flex;
         justify-content: space-between;
         top: 50px;
-        bottom: 35px;
+        bottom: 0;
     }
 
     .footer {

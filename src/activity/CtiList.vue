@@ -90,6 +90,7 @@
                 v-loading="loading"
                 @selection-change="handleSelectionChange">
             >
+
             <el-table-column type="expand">
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
@@ -127,20 +128,33 @@
                     </el-form>
                 </template>
             </el-table-column>
-
-            <el-table-column
-            type="index"
-            label="序号"
-            align="center"
-            >
-            </el-table-column>
-
-
             <el-table-column
                     type="selection"
                     align="center"
             >
             </el-table-column>
+            <el-table-column
+                    type="index"
+                    label="序号"
+                    align="center"
+            >
+            </el-table-column>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <!--<el-table-column-->

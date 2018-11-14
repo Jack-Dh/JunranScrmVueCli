@@ -123,7 +123,7 @@
                                 {{props.row.taobaoOrder}}
                             </el-form-item>
 
-                            <div style="width: 45%">
+                            <div style="width: 40%">
                                 <el-input v-model="rejectMessage" type="textarea" placeholder="拒绝理由"></el-input>
                                 <br>
                                 <div style="margin-top: 2%;display: flex;flex-direction: row;justify-content: space-around">
@@ -136,11 +136,14 @@
                         </el-form>
                     </template>
                 </el-table-column>
+
                 <el-table-column
                         type="selection"
                         align="center"
-                        fixed>
+                        >
                 </el-table-column>
+
+
                 <el-table-column
                 type="index"
                 label="序号"
@@ -240,12 +243,9 @@
                         this.$router.push('./');
                     }
                 })
-
-
             },
             //批量通过
             BatchThrough: function () {
-
                 if (this.acditId.length == 0) {
                     alert('您还未选择数据！')
                 } else {
@@ -263,8 +263,6 @@
                         }
                     })
                 }
-
-
             },
 
             //将复选框选中id添加到数组
