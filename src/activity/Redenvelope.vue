@@ -4,8 +4,8 @@
             <el-button @click="redopen">批量启用</el-button>
             <el-button @click="redShut">批量停用</el-button>
             <el-button @click="dialogVisible=true">创建红包</el-button>
-            <el-input v-model="redName" style="width: 25%" placeholder="根据红包名搜索"></el-input>
-            <el-select v-model="value" placeholder="请选择">
+            <el-input v-model="redName" style="width: 25%" placeholder="根据红包名搜索" @keyup.enter.native="searchRed"></el-input>
+            <el-select v-model="value" placeholder="请选择" @keyup.enter.native="searchRed">
                 <el-option
                         v-for="item in options"
                         :key="item.value"

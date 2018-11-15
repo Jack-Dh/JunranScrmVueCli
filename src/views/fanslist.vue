@@ -1,8 +1,8 @@
 <template>
     <div class="fanslist">
         <div style="text-align: left;padding: 0.5%">
-            <el-input v-model="username" class="username" placeholder="根据用户名搜索"></el-input>
-            <el-select @change="stateFans(state)" v-model="state" placeholder="根据粉丝状态搜索">
+            <el-input v-model="username" class="username" @keyup.enter.native="search" placeholder="根据用户名搜索"></el-input>
+            <el-select @change="stateFans(state)" v-model="state" @keyup.enter.native="search" placeholder="根据粉丝状态搜索">
                 <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -11,7 +11,7 @@
                 </el-option>
             </el-select>
 
-            <el-select @change="tagFans(value)" v-model="value" placeholder="根据粉丝标签搜索">
+            <el-select @change="tagFans(value)" v-model="value" @keyup.enter.native="search" placeholder="根据粉丝标签搜索">
                 <el-option
                         v-for="item in fanTag"
                         :label="item.name"

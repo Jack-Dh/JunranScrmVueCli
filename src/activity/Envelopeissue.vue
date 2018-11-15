@@ -13,7 +13,7 @@
             </el-date-picker>
 
 
-            <el-select v-model="value" placeholder="根据状态查询">
+            <el-select v-model="value" placeholder="根据状态查询" @keyup.enter.native="search">
                 <el-option
                         v-for="item in options"
                         :key="item.value"

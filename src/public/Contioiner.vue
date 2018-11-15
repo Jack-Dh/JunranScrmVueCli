@@ -5,8 +5,13 @@
         <div class="header">
             <el-header
                     style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
+
                 <span style="font-size: 1rem;font-weight: bold">骏然CRM</span>
-                <span style="" @click="logout">{{name}} 退出</span>
+                <div style="display: flex;align-items: center;justify-content: space-around;width: 10%">
+                    <img style="width: 30px;height: 30px;border-radius: 50%" :src="'http://'+iconImg"/>
+                    <span style="" @click="logout">{{name}} 退出</span>
+                </div>
+
             </el-header>
         </div>
 
@@ -15,9 +20,9 @@
         <div id="index">
 
             <!--左侧菜单-->
-            <div style="width: 200px;height: 100%;background-color: #393d49;">
-                <el-aside style="background-color: #393d49;width:200px;">
-                    <el-menu style="background-color:#393d49">
+            <div style="width: 15%;background-color: #393d49; ">
+                <el-aside style="width: 100%;background-color: #393d49;height: 100%">
+                    <el-menu style="background-color:#393d49;height: 100%;overflow: hidden">
                         <el-menu-item index="0" style="font-size: 1rem;color: #ffffff"
                                       @click="Tabs=false;indexPage=true">
                             <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
@@ -252,6 +257,7 @@
                 proNum: 0,//关注
                 menHeight: 0,//左侧菜单高度
                 tagsname:[],//已有的菜单
+                iconImg:'',//用户头像
             }
         },
         filters: {
@@ -351,6 +357,7 @@
         created: function () {
 
             this.name = this.$cookies.get('name');
+            this.iconImg=this.$cookies.get('icon')
             let that = this
             setInterval(function () {
                 that.Time = new Date()

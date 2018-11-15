@@ -2,10 +2,15 @@
     <div class="admin_list">
         <template>
             <div style="text-align: left;padding:0.5%" ref="topHeight">
-                <el-input style="width: 20%" v-model="adminName" placeholder="根据用户名搜索"></el-input>
+                <el-input style="width: 20%" v-model="adminName" placeholder="根据用户名搜索" @keyup.enter.native="search"></el-input>
                 <el-button @click="search">搜索</el-button>
                 <el-button @click="addAdmin=true" v-if="showAdd">添加</el-button>
             </div>
+
+
+
+
+
 
 
             <el-dialog
@@ -19,6 +24,7 @@
                         name="imgFile"
                         :headers="myheaders"
                         :on-success="handleAvatarSuccess"
+                        title="添加头像"
                        >
                     <img v-if="imageUrl" :src="imageUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -46,6 +52,16 @@
                         align="center"
                 >
                 </el-table-column>
+
+                <el-table-column
+                label="用户头像"
+                align="center"
+                >
+                    <template slot-scope="scope">
+                        <img style="width: 65px;height: 65px" :src="'http://'+scope.row.icon"/>
+                    </template>
+                </el-table-column>
+
                 <el-table-column
                         prop="name"
                         label="昵称"
@@ -88,7 +104,8 @@
                 title="修改信息"
                 :visible.sync="dialogVisible"
                 width="280"
-                :before-close="handleClose">
+                :before-close="handleClose"
+        >
 
             <el-upload
                     class="avatar-uploader"
@@ -96,8 +113,9 @@
                     name="imgFile"
                     :headers="myheaders"
                     :on-success="UpSuccess"
+                    title="修改用户头像"
             >
-                <img v-if="upimageUrl" :src="upimageUrl" class="avatar">
+                <img v-if="upimageUrl" :src="upimageUrl" class="avatar" >
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
 
@@ -328,6 +346,8 @@
                     this.loading = false
                     console.log(res.data.data)
 
+
+
                 })
             }
 
@@ -348,15 +368,17 @@
     /*overflow: auto;*/
     height: 100%;
 }
-    .avatar-uploader{border: 1px dashed #d9d9d9;width: 45%}
-    .avatar-uploader .el-upload {
+    /*.avatar-uploader{border: 1px dashed #d9d9d9;width: 45%}*/
+    .avatar-uploader{
         border: 1px dashed #d9d9d9;
         border-radius: 6px;
         cursor: pointer;
         position: relative;
         overflow: hidden;
+        width: 178px;
+        height: 178px;
     }
-    .avatar-uploader .el-upload:hover {
+    .avatar-uploader:hover {
         border-color: #409EFF;
     }
     .avatar-uploader-icon {

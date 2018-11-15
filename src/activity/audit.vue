@@ -3,7 +3,7 @@
 
         <template>
             <div style="padding: 1%;text-align: left">
-                <el-input style="width: 20%" v-model="actiName" placeholder="根据关键字搜索"></el-input>
+                <el-input style="width: 20%" v-model="actiName" placeholder="根据关键字搜索" @keyup.enter.native="search"></el-input>
                 <el-date-picker
                         v-model="auditStartTime"
                         type="datetime"
@@ -19,7 +19,7 @@
                 </el-date-picker>
 
 
-                <el-select v-model="value" placeholder="根据状态查询">
+                <el-select v-model="value" placeholder="根据状态查询" @keyup.enter.native="search">
                     <el-option
                             v-for="item in options"
                             :key="item.value"

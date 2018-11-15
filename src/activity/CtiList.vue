@@ -5,9 +5,9 @@
             <el-button @click="shutCti">批量停用</el-button>
             <el-button @click="addCtipage">添加活动</el-button>
             <el-input style="width: 20%" v-model="ctiName" placeholder="根据活动名称搜索"
-                      prefix-icon="el-icon-search"></el-input>
+                      prefix-icon="el-icon-search" @keyup.enter.native="searchCti"></el-input>
 
-            <el-select v-model="value" placeholder="根据活动状态搜索">
+            <el-select v-model="value" placeholder="根据活动状态搜索" @keyup.enter.native="searchCti">
                 <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -139,23 +139,6 @@
                     align="center"
             >
             </el-table-column>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <!--<el-table-column-->
             <!--fixed-->
