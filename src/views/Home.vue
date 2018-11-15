@@ -98,7 +98,7 @@
 
     .login_back p {
         line-height: 1rem;
-        font-size: 1.5rem;
+        font-size: 1.5em;
     }
 
     .login_back input {

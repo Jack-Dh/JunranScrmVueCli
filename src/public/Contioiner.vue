@@ -20,7 +20,7 @@
         <div id="index">
 
             <!--左侧菜单-->
-            <div style="width: 15%;background-color: #393d49; ">
+            <div style="width: 18%;background-color: #393d49; ">
                 <el-aside style="width: 100%;background-color: #393d49;height: 100%">
                     <el-menu style="background-color:#393d49;height: 100%;overflow: hidden">
                         <el-menu-item index="0" style="font-size: 1rem;color: #ffffff"
