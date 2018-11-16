@@ -84,7 +84,7 @@
             <div style="width: 100%;height: 100%;overflow: auto;">
                 <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab"
                          @tab-click="handleClick"
-                         v-if="Tabs" style="width: 85%"
+                         v-if="Tabs" style="width: 100%"
                 >
                     <el-tab-pane
                             v-for="(item, index) in editableTabs2"
