@@ -137,10 +137,9 @@
                             bannerImages: this.imgdata,
                             menus: this.menus
                         })
-                        this.$http.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
+                        this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
                             headers: {token: this.$cookies.get('token')}
                         }).then(res => {
-                            console.log(res.data)
                             if(res.data.code==0){
                                 alert('保存成功')
                             }
@@ -153,7 +152,7 @@
                             bannerImages: this.imgdata,
                             menus: this.menus
                         })
-                        this.$http.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
+                        this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
                             headers: {token: this.$cookies.get('token')}
                         }).then(res => {
                             console.log(res.data)
@@ -187,8 +186,6 @@
 
             //修改图片成功后的回调
             successUpadate(updataImgUrl) {
-                console.log(updataImgUrl.url)
-
                 this.imgdata.splice(this.index, 1, 'http://' + updataImgUrl.url)
             },
             //点击图片获取当前点击图片的索引
@@ -215,7 +212,7 @@
         },
         created: function () {
             this.myHeaders = {token: this.$cookies.get('token')}
-            this.$http.get('http://jiajiachuang.cn/junran/manage/wxsetting/get', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/get', {
                 headers: {token: this.$cookies.get('token')}
             }).then(res => {
                 console.log(res.data)

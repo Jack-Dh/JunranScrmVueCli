@@ -71,7 +71,7 @@
                 console.log(`当前页:` + val);
                 this.val = val
 
-                this.$http.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
@@ -80,12 +80,11 @@
                         page: this.val - 1
                     }
                 }).then(res => {
-                    console.log(res.data)
                     this.oper = res.data.data
                     this.size = res.data.size
                     this.total = res.data.count
                     this.page = res.data.page
-                    console.log(this.oper)
+
                 })
 
 
@@ -103,7 +102,7 @@
             }
         },
         created: function () {
-            this.$http.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
                 headers: {
                     token: this.$cookies.get('token')
                 },

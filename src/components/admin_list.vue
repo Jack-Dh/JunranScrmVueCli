@@ -2,17 +2,10 @@
     <div class="admin_list">
         <template>
             <div style="text-align: left;padding:0.5%" ref="topHeight">
-                <el-input style="width: 20%" v-model="adminName" placeholder="根据用户名搜索" @keyup.enter.native="search"></el-input>
-                <el-button @click="search">搜索</el-button>
+                <el-input style="width: 20%" v-model="adminName" placeholder="根据用户名搜索" v-if="showAdd" @keyup.enter.native="search"></el-input>
+                <el-button @click="search" v-if="showAdd">搜索</el-button>
                 <el-button @click="addAdmin=true" v-if="showAdd">添加</el-button>
             </div>
-
-
-
-
-
-
-
             <el-dialog
                     title="添加管理员"
                     :visible.sync="addAdmin"
@@ -184,9 +177,6 @@
                 // this.upimageUrl=URL.createObjectURL(file.raw);
                 this.adminImg=res.url
 
-                console.log(res.url)
-                console.log(file)
-                console.log(this.imageUrl)
             },
             //修改管理员头像
             UpSuccess:function(res,file){
@@ -194,9 +184,6 @@
                 this.upimageUrl=URL.createObjectURL(file.raw);
                 this.upDataImg=res.url
 
-                console.log(res.url)
-                console.log(file)
-                console.log(this.imageUrl)
             },
 
             //确定添加管理员
@@ -205,7 +192,7 @@
                 if (this.addpassword != this.addpasswords) {
                     alert('两次密码输入不一致')
                 } else {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/operator/upsert', JSON.stringify({
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert', JSON.stringify({
                         name: this.addname,
                         password: this.addpassword,
                         username: this.addusername,
@@ -216,9 +203,6 @@
                         if (res.data.code == 0) {
                             alert('添加成功！')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证过期，请重新登录！')
-                            this.$router.push('./')
                         }
                     })
                 }
@@ -227,7 +211,7 @@
             },
             //搜索按钮
             search: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {
                         size: 10,
@@ -240,7 +224,7 @@
 
             },
             handleCurrentChange: function (val) {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
@@ -249,24 +233,21 @@
                         page: val - 1
                     }
                 }).then(res => {
-                    console.info(res.data)
-
                     this.intel = res.data.data
                     this.pageCount = res.data.pageCount
                     this.size = res.data.size
-                    console.log(this.intel)
+
                 })
 
             },
 
             //修改管理员信息
             update: function (id, name, username) {
-                console.log(id)
+
                 this.id = id
                 this.name = name
                 this.username = username
-                console.log(name)
-                console.log(username)
+
 
             },
             yes: function () {
@@ -281,7 +262,7 @@
                 if (name == '' || username == '' || pass == '') {
                     alert('信息填写不完全')
                 } else {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/operator/upsert', data, {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert', data, {
                         headers: {
                             token: this.$cookies.get('token')
                         },
@@ -297,7 +278,7 @@
 
             },
             handleClick: function (a) {
-                console.log(a)
+
                 this.id = a.id;
                 this.name = a.name;
                 this.username = a.username;
@@ -312,16 +293,12 @@
                     .catch(_ => {
                     });
             }
-
-
         },
-
         created: function () {
             var name = this.$cookies.get('name')
             this.myheaders={token:this.$cookies.get('token')}
             if (name != 'admin') {
                 this.showAdd = false
-
                 var adminData = [{
                     createTime: this.$cookies.get('createTime'),
                     name: this.$cookies.get('nickName'),
@@ -332,7 +309,7 @@
                 this.intel = adminData
                 this.loading = false
             } else {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/operator/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
@@ -344,7 +321,7 @@
                     this.pageCount = res.data.pageCount
                     this.size = res.data.size
                     this.loading = false
-                    console.log(res.data.data)
+
 
 
 

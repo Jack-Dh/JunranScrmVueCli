@@ -4,7 +4,8 @@
             <el-button @click="redopen">批量启用</el-button>
             <el-button @click="redShut">批量停用</el-button>
             <el-button @click="dialogVisible=true">创建红包</el-button>
-            <el-input v-model="redName" style="width: 25%" placeholder="根据红包名搜索" @keyup.enter.native="searchRed"></el-input>
+            <el-input v-model="redName" style="width: 25%" placeholder="根据红包名搜索"
+                      @keyup.enter.native="searchRed"></el-input>
             <el-select v-model="value" placeholder="请选择" @keyup.enter.native="searchRed">
                 <el-option
                         v-for="item in options"
@@ -48,7 +49,7 @@
 
             >
 
-                <el-table-column type="expand"  fixed>
+                <el-table-column type="expand" fixed>
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
                             <el-form-item label="红包名称">
@@ -83,9 +84,9 @@
                         align="center">
                 </el-table-column>
                 <el-table-column
-                type="index"
-                label="序号"
-                align="center"
+                        type="index"
+                        label="序号"
+                        align="center"
                 >
                 </el-table-column>
                 <el-table-column
@@ -200,7 +201,7 @@
                 Upwishing: '',//修改红包祝福语
                 Upredremark: '',//修改红包备注
                 UpredID: '',//红包ID
-                loading:true
+                loading: true
             }
         },
         methods: {
@@ -208,7 +209,7 @@
             addRed: function () {
                 this.dialogVisible = false
                 if (this.actName != '' && this.name != '' && this.remark != '' && this.sendName != '' && this.totalAmount != '' && this.wishing != '') {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
                         actName: this.actName,
                         name: this.name,
                         remark: this.remark,
@@ -222,9 +223,6 @@
                         if (res.data.code == 0) {
                             alert('添加成功！')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证过期，请重新登录')
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -236,14 +234,14 @@
             Yesup: function () {
                 this.Upred = false
                 if (this.UpactName != '' && this.Upname != '' && this.Upremark != '' && this.UpsendName != '' && this.UptotalAmount != '' && this.Upwishing != '') {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
                         actName: this.UpactName,
                         name: this.Upname,
                         remark: this.Upremark,
                         sendName: this.UpsendName,
                         totalAmount: this.UptotalAmount * 100,
                         wishing: this.Upwishing,
-                        id:this.UpredID,
+                        id: this.UpredID,
                     }, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
@@ -251,9 +249,6 @@
                         if (res.data.code == 0) {
                             alert('修改成功！')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证过期，请重新登录')
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -279,14 +274,11 @@
             },
             //红包搜索
             searchRed: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {name: this.redName, state: this.value}
                 }).then(res => {
-                    if (res.data.code == 103) {
-                        alert('身份验证过期，请重新登录')
-                        this.$router.push('./')
-                    } else if (res.data.code == 0) {
+                    if (res.data.code == 0) {
                         this.red = res.data.data
                         this.loading = false
                     }
@@ -306,7 +298,7 @@
                 if (this.redState.indexOf('01') != -1) {
                     alert('您当前选中的红包已有存在开启的，请勿重复开启！')
                 } else if (this.redID.length != 0) {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
                         ids: this.redID,
                         state: '01'
                     }, {
@@ -314,9 +306,6 @@
                     }).then(res => {
                         if (res.data.code == 0) {
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证过期，请重新登录');
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -330,7 +319,7 @@
                 if (this.redState.indexOf('02') != -1) {
                     alert('您当前选中的红包已有存在关闭的，请勿重复关闭！')
                 } else if (this.redID.length != 0) {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
                         ids: this.redID,
                         state: '02'
                     }, {
@@ -338,9 +327,6 @@
                     }).then(res => {
                         if (res.data.code == 0) {
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证过期，请重新登录');
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -365,17 +351,14 @@
             redTagg: function (id, state) {
                 var s = state == '01' ? '02' : '01'
 
-                this.$http.post('http://jiajiachuang.cn/junran/manage/redpack/able', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', JSON.stringify({
                     ids: [id],
                     state: s
                 }), {
                     headers: {token: this.$cookies.get('token')}
                 }).then(res => {
                     console.log(res.data)
-                    if (res.data.code == 103) {
-                        alert('身份信息过期，请重新登录')
-                        this.$router.push('./')
-                    } else if (res.data.code == 0) {
+                    if (res.data.code == 0) {
                         window.location.reload()
                     }
                 })
@@ -384,7 +367,7 @@
             //分页
             taggPage: function (val) {
 
-                this.$http.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {page: val - 1, size: 10}
                 }).then(res => {
@@ -395,7 +378,7 @@
             }
         },
         created: function () {
-            this.$http.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 10}
             }).then(res => {

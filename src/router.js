@@ -13,7 +13,7 @@ import Redenvelope from './activity/Redenvelope'
 import audit from './activity/audit'
 import Envelopeissue from './activity/Envelopeissue'
 import hello from './components/HelloWorld'
-
+import inedxPage from './public/index'
 
 
 Vue.use(Router)
@@ -28,9 +28,9 @@ export default new Router({
             component: Home
         },
         {
-            path:'/HelloWord',
-            name:'Hellow',
-            component:hello
+            path: '/HelloWord',
+            name: 'Hellow',
+            component: hello
         },
 
         // {
@@ -51,7 +51,7 @@ export default new Router({
             path: '/Contioiner',
             name: 'Contioiner',
             component: Contioiner,
-            redirect:'/admin_list',
+            redirect: '/inedxPage',
             children: [{
                 path: '/admin_list',
                 name: 'admin_list',
@@ -88,8 +88,12 @@ export default new Router({
                     path: '/Envelopeissue',
                     name: 'Envelopeissue',
                     component: Envelopeissue
-                },
-                ]
+                }, {
+                    path: '/inedxPage',
+                    name: 'inedxPage',
+                    component: inedxPage
+                }
+            ]
         }
 
     ]

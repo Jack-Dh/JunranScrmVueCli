@@ -28,9 +28,6 @@
                     </el-option>
                 </el-select>
 
-
-
-
                 <el-button @click="search">查询</el-button>
                 <el-button @click="BatchThrough">批量通过</el-button>
             </div>
@@ -192,9 +189,7 @@
                 >
                 </el-pagination>
             </div>
-
         </template>
-
     </div>
 </template>
 
@@ -228,7 +223,7 @@
         methods: {
             //搜索活动
             search: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {size: 10,auditStartTime:this.auditStartTime,auditEndTime:this.auditEndTime,keyword:this.actiName,state:this.value}
                 }).then(res => {
@@ -238,26 +233,21 @@
                         this.count = res.data.count
                         this.size = res.data.size
                         this.loading = false
-                    } else if (res.data.code == 103) {
-                        alert('身份验证过期，请重新登录');
-                        this.$router.push('./');
                     }
                 })
             },
             //批量通过
             BatchThrough: function () {
+
                 if (this.acditId.length == 0) {
                     alert('您还未选择数据！')
                 } else {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: this.acditId}, {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: this.acditId}, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         if (res.data.code == 0) {
                             alert('操作成功！')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份验证已过期，请重新登录');
-                            this.$router.push('./')
                         } else {
                             alert(res.data.message)
                         }
@@ -271,27 +261,23 @@
                 for (var i = 0; i < val.length; i++) {
                     this.acditId.push(val[i].id)
                 }
-                console.log(this.acditId)
             },
             //活动通过
             through: function (id) {
-                this.$http.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: [id]}, {
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: [id]}, {
                     headers: {token: this.$cookies.get('token')}
                 }).then(res => {
                     if (res.data.code == 0) {
                         alert('操作成功！')
                         window.location.reload()
-                    } else if (res.data.code == 103) {
-                        alert('身份验证已过期，请重新登录');
-                        this.$router.push('./')
-                    } else {
+                    }  else {
                         alert(res.data.message)
                     }
                 })
             },
             //活动拒绝
             reject: function (id) {
-                this.$http.post('http://jiajiachuang.cn/junran/manage/useractivity/reject', {
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/reject', {
                     id: id,
                     rejectMessage: this.rejectMessage
                 }, {
@@ -300,15 +286,12 @@
                     if (res.data.code == 0) {
                         alert('操作成功！')
                         window.location.reload()
-                    } else if (res.data.code == 103) {
-                        alert('身份验证已过期，请重新登录');
-                        this.$router.push('./')
                     }
                 })
             },
             //分页
             currChange: function (val) {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {size: 10, page: val - 1}
                 }).then(res => {
@@ -317,15 +300,12 @@
                         this.count = res.data.count
                         this.size = res.data.size
 
-                    } else if (res.data.code == 103) {
-                        alert('身份验证过期，请重新登录');
-                        this.$router.push('./');
                     }
                 })
             }
         },
         created: function () {
-            this.$http.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 10}
             }).then(res => {
@@ -335,10 +315,8 @@
                     this.count = res.data.count
                     this.size = res.data.size
                     this.loading = false
-                } else if (res.data.code == 103) {
-                    alert('身份验证过期，请重新登录');
-                    this.$router.push('./');
                 }
+
             })
 
 

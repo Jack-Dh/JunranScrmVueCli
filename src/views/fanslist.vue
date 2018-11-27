@@ -226,7 +226,7 @@
 
             //搜索按钮
             search: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {
                         size: 5,
@@ -262,12 +262,11 @@
                     this.TagId.push(val.tag[i].id)
                 }
                 console.log(this.TagId)
-                this.$http.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
                     headers: {
                         token: this.$cookies.get('token')
                     }
                 }).then(res => {
-                    console.log(res.data)
                     this.Tag = res.data.rs
                 })
 
@@ -276,7 +275,7 @@
             //给用户添加标签
             addTagNmae: function () {
 
-                this.$http.post('http://jiajiachuang.cn/junran/manage/user/updateTag', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/updateTag', JSON.stringify({
                     ids: this.TagId,
                     state: this.userId
                 }), {
@@ -299,7 +298,7 @@
             },
             //分页
             handleCurrentChange: function (val) {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
@@ -309,11 +308,9 @@
                     }
 
                 }).then(res => {
-                    console.log(res.data)
                     this.fans = res.data.data
                     this.size = res.data.size
                     this.page = res.data.pageCount
-                    console.log(this.fans)
                 })
 
             },
@@ -354,7 +351,7 @@
                 let inputValue = this.inputValue;
                 console.log(this.dynamicTags)
                 var val = JSON.stringify({name: inputValue})
-                this.$http.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', val,
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', val,
                     {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
@@ -372,16 +369,12 @@
             },
             optag: function () {
 
-                this.$http.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
                     headers: {
                         token: this.$cookies.get('token')
                     },
                 }).then(res => {
-                    console.log(res.data)
-
                     this.dynamicTags = res.data.rs
-                    console.log(this.dynamicTags)
-
                 })
                 this.dialogVisibox = true
             },
@@ -389,19 +382,19 @@
             inputUpdata: function (id, e) {
                 var tagName = e.target.value
 
-                this.$http.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', JSON.stringify({
                         "id": id,
                         "name": tagName
                     }),
                     {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
-                    console.log(res.data)
+
                 })
             }
         },
         created: function () {
-            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
                 headers: {
                     token: this.$cookies.get('token')
                 },
@@ -410,7 +403,6 @@
                 }
 
             }).then(res => {
-                console.log(res.data.data)
                 this.fans = res.data.data
                 this.size = res.data.size
                 this.page = res.data.pageCount
@@ -421,7 +413,7 @@
                         this.fanTag.push({id: data[i].tag[j].id, name: data[i].tag[j].name})
                     }
                 }
-                console.log(this.fanTag)
+
 
 
             })

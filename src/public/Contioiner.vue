@@ -24,7 +24,7 @@
                 <el-aside style="width: 100%;background-color: #393d49;height: 100%">
                     <el-menu style="background-color:#393d49;height: 100%;overflow: hidden">
                         <el-menu-item index="0" style="font-size: 1rem;color: #ffffff"
-                                      @click="Tabs=false;indexPage=true">
+                                      @click="$router.push('inedxPage');addTab('首页',$route.path)">
                             <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
                             <span slot="title">首&nbsp;&nbsp;页</span>
                         </el-menu-item>
@@ -35,10 +35,10 @@
                                 <span style="font-size: 1rem;color: #ffffff">系统管理</span>
                             </template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理')"><span
+                                <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理',$route.path)"><span
                                         class="fontstyle">管理员管理</span></el-menu-item>
                                 <el-menu-item index="1-2"
-                                              @click="$router.push('operationList');addTab('操作日志')"><span
+                                              @click="$router.push('operationList');addTab('操作日志',$route.path)"><span
                                         class="fontstyle">操作日志</span>
                                 </el-menu-item>
                             </el-menu-item-group>
@@ -49,9 +49,9 @@
                                 <i class="fontFamily hhtx-weixinguanli"></i>
                                 <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表')"><span
+                                <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表',$route.path)"><span
                                         class="fontstyle">粉丝列表</span></el-menu-item>
-                                <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置')"><span
+                                <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置',$route.path)"><span
                                         class="fontstyle">微信设置</span>
                                 </el-menu-item>
                             </el-menu-item-group>
@@ -62,15 +62,15 @@
                                 <i class="fontFamily hhtx-huodongguanli"></i>
                                 <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表')"><span
+                                <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表',$route.path)"><span
                                         class="fontstyle">活动列表</span></el-menu-item>
-                                <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表')"><span
+                                <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表',$route.path)"><span
                                         class="fontstyle">红包列表</span></el-menu-item>
-                                <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核')"><span
+                                <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核',$route.path)"><span
                                         class="fontstyle">活动审核</span>
                                 </el-menu-item>
                                 <el-menu-item index="3-4"
-                                              @click="$router.push('Envelopeissue');addTab('红包发放')"><span
+                                              @click="$router.push('Envelopeissue');addTab('红包发放',$route.path)"><span
                                         class="fontstyle">红包发放</span>
                                 </el-menu-item>
                             </el-menu-item-group>
@@ -93,41 +93,43 @@
                             :name="item.name"
                             :urlTag="item"
                     >
-                        <router-view></router-view>
+
                     </el-tab-pane>
                 </el-tabs>
-                <div class="indexPage" v-if="indexPage">
-                    <h3>骏然CRM网络平台粉丝管理系统</h3>
-                    <h4>欢迎您！</h4>
-                    <h1>{{Time | filtTime}}</h1>
+                <router-view></router-view>
 
-                    <div style="display: flex;justify-content:center;">
-                        <div style="margin: 2%">
-                            <div class="prompt">
-                                <p style="background-color: red;width: 50px;height: 15px"></p>
-                                <p>已取关({{attNum}})</p>
-                            </div>
-                            <div class="prompt">
-                                <p style="background-color:#20a0ff;width: 50px;height: 15px"></p>
-                                <p>已关注({{proNum}})</p>
-                            </div>
-                            <div class="prompt">
-                                <p style="background-color:green;width: 50px;height: 15px"></p>
-                                <p>总人数({{peopleNum}})</p>
-                            </div>
+                <!--<div class="indexPage" v-if="indexPage">-->
+                    <!--<h3>骏然CRM网络平台粉丝管理系统</h3>-->
+                    <!--<h4>欢迎您！</h4>-->
+                    <!--<h1>{{Time | filtTime}}</h1>-->
 
-                        </div>
+                    <!--<div style="display: flex;justify-content:center;">-->
+                        <!--<div style="margin: 2%">-->
+                            <!--<div class="prompt">-->
+                                <!--<p style="background-color: red;width: 50px;height: 15px"></p>-->
+                                <!--<p>已取关({{attNum}})</p>-->
+                            <!--</div>-->
+                            <!--<div class="prompt">-->
+                                <!--<p style="background-color:#20a0ff;width: 50px;height: 15px"></p>-->
+                                <!--<p>已关注({{proNum}})</p>-->
+                            <!--</div>-->
+                            <!--<div class="prompt">-->
+                                <!--<p style="background-color:green;width: 50px;height: 15px"></p>-->
+                                <!--<p>总人数({{peopleNum}})</p>-->
+                            <!--</div>-->
 
-
-                        <div style="display: flex;justify-content: space-around;width: 50%;align-items: center">
-                            <el-progress type="circle" :percentage="attention" color="red"></el-progress>
-                            <el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>
-                            <el-progress type="circle" :percentage="100" color="green"></el-progress>
-                        </div>
-                    </div>
+                        <!--</div>-->
 
 
-                </div>
+                        <!--<div style="display: flex;justify-content: space-around;width: 50%;align-items: center">-->
+                            <!--<el-progress type="circle" :percentage="attention" color="red"></el-progress>-->
+                            <!--<el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>-->
+                            <!--<el-progress type="circle" :percentage="100" color="green"></el-progress>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>-->
             </div>
 
         </div>
@@ -225,9 +227,10 @@
     import Redenvelope from '../activity/Redenvelope'
     import audit from '../activity/audit'
     import Envelopeissue from '../activity/Envelopeissue'
+    import inedxPage from './index'
 
     export default {
-        components: {Admin_list, adminList, fanslist, wxSet, CtiList, Redenvelope, audit, Envelopeissue},
+        components: {Admin_list, adminList, fanslist, wxSet, CtiList, Redenvelope, audit, Envelopeissue,inedxPage},
 
         data() {
             const item = {
@@ -240,71 +243,73 @@
                 editableTabsValue2: 1,
                 editableTabs2: [
                     //     {
-                    //     title: '管理员管理',
+                    //     title: '首页',
                     //     name: '1',
-                    //     content: this.$router.push('admin_List')
+                    //     content: this.$router.push('inedxPage')
                     // }
                 ],
                 tabIndex: 0,
                 indexPage: true,
-                Time: new Date(),
                 Tabs: false,
-                Focus: 0,//已关注%
-                attention: 0,//取关人数%
-                peopleNum: 0,//全部人数%
-
-                attNum: 0,//取关
-                proNum: 0,//关注
                 menHeight: 0,//左侧菜单高度
                 tagsname:[],//已有的菜单
                 iconImg:'',//用户头像
-            }
-        },
-        filters: {
-            //时间格式过滤器
 
-            filtTime: function (input) {
-                var d = new Date();
-                var year = d.getFullYear() < 10 ? '0' + d.getFullYear() : d.getFullYear();//年
-                var month = d.getMonth() + 1 < 10 ? '0' + d.getMonth() + 1 : d.getMonth() + 1;//月
-                var day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();//日
-                var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();//时
-                var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();//分
-                var seconds = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();//秒
-                return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds
             }
         },
+
         methods: {
 
             //新增选项卡
-            addTab(Tagname) {
-                this.indexPage = false;
+            addTab(Tagname,url) {
                 this.Tabs = true;
-                for (var i = 0; i < this.editableTabs2.length; i++){
-                    this.tagsname.push(this.editableTabs2[i].title)
-                }
-                //判断选项卡中是否已有打开的菜单
-                if (this.tagsname.indexOf(Tagname)==-1){
-
-
-                    let newTabName = ++this.tabIndex + '';
-                    this.editableTabs2.push({
-                        title: Tagname,
-                        name: newTabName,
-                        content: this.$route.path
-                    });
-                    this.editableTabsValue2 = newTabName;
-                    console.log(newTabName)
-                }else {
-                    //循环数组，找到存在数组中的元素，并让选项卡显示当前选中的页面
                     var num
-                     this.editableTabs2.forEach((element,index)=>{
-                        if (element.title==Tagname) {
-                            num=index+1
-                        }
-                    })
-                    this.editableTabsValue2=num.toString()
-                }
+                //循环判断如果有已打开选项卡就返回true
+                let a=this.editableTabs2.some((item,index)=>{
+                    num=index+1
+                    return item.title==Tagname
+                })
+
+                console.log(a)
+                    if (a){
+                        this.editableTabsValue2 = num.toString()
+                        console.log(this.editableTabsValue2)
+                    }else {
+                        let newTabName = ++this.tabIndex + '';
+                        this.editableTabs2.push({
+                            title: Tagname,
+                            name: newTabName,
+                            content: this.$route.path
+                        });
+                        this.editableTabsValue2 = newTabName;
+                    }
+
+
+
+                // for (var i = 0; i < this.editableTabs2.length; i++){
+                //     this.tagsname.push(this.editableTabs2[i].title)
+                // }
+                // //判断选项卡中是否已有打开的菜单
+                // if (this.tagsname.indexOf(Tagname)==-1){
+                //
+                //     let newTabName = ++this.tabIndex + '';
+                //     this.editableTabs2.push({
+                //         title: Tagname,
+                //         name: newTabName,
+                //         content: this.$route.path
+                //     });
+                //     this.editableTabsValue2 = newTabName;
+                //     console.log(newTabName)
+                // }else {
+                //     //循环数组，找到存在数组中的元素，并让选项卡显示当前选中的页面
+                //     var num
+                //      this.editableTabs2.forEach((element,index)=>{
+                //         if (element.title==Tagname) {
+                //             num=index+1
+                //         }
+                //     })
+                //     this.editableTabsValue2=num.toString()
+                // }
 
             },
 
@@ -332,9 +337,11 @@
                     this.editableTabsValue2 = activeName;
                     this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
 
-                    var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
+                    // var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
+                    console.log(targetName)
+                    console.log(this.editableTabs2.length)
                     //获取已经删除标签的上一个标签信息
-                    this.$router.push(rou)
+                    // this.$router.push(rou)
                 } else {
                     alert('默认标签首页不允许关闭哦')
                 }
@@ -345,7 +352,7 @@
 
             //退出登录
             logout: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/logout', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/logout', {
                     headers: {token: this.$cookies.get('token')}
                 })
                 this.$router.push('./')
@@ -358,47 +365,7 @@
 
             this.name = this.$cookies.get('name');
             this.iconImg=this.$cookies.get('icon')
-            let that = this
-            setInterval(function () {
-                that.Time = new Date()
-            }, 1000);
-
-
-            //全部人数
-            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                headers: {token: this.$cookies.get('token')},
-                params: {size: 999999}
-            }).then(res => {
-                console.log(res.data)
-                this.peopleNum = res.data.count
-            })
-
-
-            //关注人数
-            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                headers: {token: this.$cookies.get('token')},
-                params: {size: 999999, subscribe: 1}
-            }).then(res => {
-                this.proNum = res.data.count
-                //加上三目运算，防止出现infinity
-                this.Focus = this.peopleNum == 0 ? 1 : res.data.count / this.peopleNum * 100
-
-            })
-
-
-            //取注人数
-            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                headers: {token: this.$cookies.get('token')},
-                params: {size: 999999, subscribe: 0}
-            }).then(res => {
-                this.attNum = res.data.count
-                this.attention = this.peopleNum == 0 ? 0 : res.data.count / this.peopleNum * 100
-            })
-
             this.menHeight = window.innerHeight - 50
-            // Focus:0,//已关注
-            //     attention:0,//取关人数
-            //     Num:0,//全部人数
 
 
         },

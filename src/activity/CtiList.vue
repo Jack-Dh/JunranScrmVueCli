@@ -324,7 +324,7 @@
                 Upshop: '',//修改活动店铺
                 Upremark: '',//修改活动说明
                 Upmax: '',//修改活动最大参与人数
-                loading:true
+                loading: true
             }
         },
         methods: {  //创建活动按钮
@@ -346,7 +346,7 @@
                         startTime: this.startTime
                     })
 
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         console.log(res.data)
@@ -354,9 +354,6 @@
                         if (res.data.code == 0) {
                             alert('添加成功')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份过期，请重新登录')
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -368,7 +365,7 @@
             //打开添加活动页
             addCtipage: function () {
                 this.dialogVisible = true
-                this.$http.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
                     headers: {token: this.$cookies.get('token')},
                     params: {state: '01'}
                 }).then(res => {
@@ -380,7 +377,6 @@
             upchange: function (file, fileList) {
                 this.shopIcon = file.url
             },
-
 
 
             //确定修改按钮
@@ -400,7 +396,7 @@
                         startTime: this.UpstartTime,
                         id: this.Upid,
                     })
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         console.log(res.data)
@@ -408,9 +404,6 @@
                         if (res.data.code == 0) {
                             alert('修改成功')
                             window.location.reload()
-                        } else if (res.data.code == 103) {
-                            alert('身份过期，请重新登录')
-                            this.$router.push('./')
                         }
                     })
                 } else {
@@ -430,7 +423,7 @@
                 this.Upremark = val.remark
                 this.Upmax = val.max
                 this.upcti = true
-                this.$http.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
                     headers: {token: this.$cookies.get('token')},
                     params: {state: '01'}
                 }).then(res => {
@@ -455,7 +448,7 @@
 
             //搜索活动
             searchCti: function () {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/activity/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {size: 9, state: this.value, activityName: this.ctiName}
                 }).then(res => {
@@ -470,7 +463,7 @@
                 if (this.ctistate.indexOf('01') != -1) {
                     alert('选择的活动中已有开启的活动了，请勿重复开启！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
                         ids: this.multipleSelection,
                         state: '01'
                     }), {
@@ -488,7 +481,7 @@
                 if (this.ctistate.indexOf('02') != -1) {
                     alert('选择的活动中已有关闭的活动了，请勿重复关闭！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$http.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
                         ids: this.multipleSelection,
                         state: '02'
                     }), {
@@ -508,18 +501,17 @@
                 var a = state == '01' ? '02' : '01'
 
                 var data = JSON.stringify({ids: [id], state: a})
-                this.$http.post('http://jiajiachuang.cn/junran/manage/activity/able', data, {
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', data, {
                     headers: {token: this.$cookies.get('token')}
                 }).then(res => {
                     console.log(res.data)
                     window.location.reload()
                 })
 
-
             },
             //分页
             changePage: function (val) {
-                this.$http.get('http://jiajiachuang.cn/junran/manage/activity/search', {
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {size: 10, page: val - 1}
                 }).then(res => {
@@ -538,11 +530,9 @@
                 console.log(this.multipleSelection)
             }
         },
-        created: function () {
-
+        created: function () { //这是活动列表
             this.myHeaders = {token: this.$cookies.get('token')}
-
-            this.$http.get('http://jiajiachuang.cn/junran/manage/activity/search', {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 9}
             }).then(res => {
@@ -550,7 +540,7 @@
                 this.ctilist = res.data.data
                 this.pageCount = res.data.pageCount
                 this.loading = false
-                console.log(this.pageCount)
+
             })
 
 

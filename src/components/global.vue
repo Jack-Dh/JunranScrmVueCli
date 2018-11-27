@@ -7,7 +7,7 @@
         name: "global",
         data(){
             return {
-                token:''
+                token:'2232323'
             }
         },
         methods:{
