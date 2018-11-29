@@ -35,7 +35,8 @@
                                 <span style="font-size: 1rem;color: #ffffff">系统管理</span>
                             </template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="1-1" @click="$router.push('admin_list');addTab('管理员管理',$route.path)"><span
+                                <el-menu-item index="1-1"
+                                              @click="$router.push('admin_list');addTab('管理员管理',$route.path)"><span
                                         class="fontstyle">管理员管理</span></el-menu-item>
                                 <el-menu-item index="1-2"
                                               @click="$router.push('operationList');addTab('操作日志',$route.path)"><span
@@ -49,9 +50,11 @@
                                 <i class="fontFamily hhtx-weixinguanli"></i>
                                 <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="2-1" @click="$router.push('fansList');addTab('粉丝列表',$route.path)"><span
+                                <el-menu-item index="2-1"
+                                              @click="$router.push('fansList');addTab('粉丝列表',$route.path)"><span
                                         class="fontstyle">粉丝列表</span></el-menu-item>
-                                <el-menu-item index="2-2" @click="$router.push('wxSet');addTab('微信设置',$route.path)"><span
+                                <el-menu-item index="2-2"
+                                              @click="$router.push('wxSet');addTab('微信设置',$route.path)"><span
                                         class="fontstyle">微信设置</span>
                                 </el-menu-item>
                             </el-menu-item-group>
@@ -62,11 +65,14 @@
                                 <i class="fontFamily hhtx-huodongguanli"></i>
                                 <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
                             <el-menu-item-group style="background-color: #282b33">
-                                <el-menu-item index="3-1" @click="$router.push('CtiList');addTab('活动列表',$route.path)"><span
+                                <el-menu-item index="3-1"
+                                              @click="$router.push('CtiList');addTab('活动列表',$route.path)"><span
                                         class="fontstyle">活动列表</span></el-menu-item>
-                                <el-menu-item index="3-2" @click="$router.push('Redenvelope');addTab('红包列表',$route.path)"><span
+                                <el-menu-item index="3-2"
+                                              @click="$router.push('Redenvelope');addTab('红包列表',$route.path)"><span
                                         class="fontstyle">红包列表</span></el-menu-item>
-                                <el-menu-item index="3-3" @click="$router.push('audit');addTab('活动审核',$route.path)"><span
+                                <el-menu-item index="3-3"
+                                              @click="$router.push('audit');addTab('活动审核',$route.path)"><span
                                         class="fontstyle">活动审核</span>
                                 </el-menu-item>
                                 <el-menu-item index="3-4"
@@ -83,50 +89,46 @@
             <!--右侧内容-->
             <div style="width: 100%;height: 100%;overflow: auto;">
                 <el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab"
-                         @tab-click="handleClick"
-                         v-if="Tabs" style="width: 100%"
+                         @tab-click="handleClick" style="width: 100%"
                 >
                     <el-tab-pane
-                            v-for="(item, index) in editableTabs2"
-                            :key="item.name"
+                            v-for="item in editableTabs2"
                             :label="item.title"
                             :name="item.name"
-                            :urlTag="item"
-                    >
-
+                            :urlTag="item">
                     </el-tab-pane>
                 </el-tabs>
                 <router-view></router-view>
 
                 <!--<div class="indexPage" v-if="indexPage">-->
-                    <!--<h3>骏然CRM网络平台粉丝管理系统</h3>-->
-                    <!--<h4>欢迎您！</h4>-->
-                    <!--<h1>{{Time | filtTime}}</h1>-->
+                <!--<h3>骏然CRM网络平台粉丝管理系统</h3>-->
+                <!--<h4>欢迎您！</h4>-->
+                <!--<h1>{{Time | filtTime}}</h1>-->
 
-                    <!--<div style="display: flex;justify-content:center;">-->
-                        <!--<div style="margin: 2%">-->
-                            <!--<div class="prompt">-->
-                                <!--<p style="background-color: red;width: 50px;height: 15px"></p>-->
-                                <!--<p>已取关({{attNum}})</p>-->
-                            <!--</div>-->
-                            <!--<div class="prompt">-->
-                                <!--<p style="background-color:#20a0ff;width: 50px;height: 15px"></p>-->
-                                <!--<p>已关注({{proNum}})</p>-->
-                            <!--</div>-->
-                            <!--<div class="prompt">-->
-                                <!--<p style="background-color:green;width: 50px;height: 15px"></p>-->
-                                <!--<p>总人数({{peopleNum}})</p>-->
-                            <!--</div>-->
+                <!--<div style="display: flex;justify-content:center;">-->
+                <!--<div style="margin: 2%">-->
+                <!--<div class="prompt">-->
+                <!--<p style="background-color: red;width: 50px;height: 15px"></p>-->
+                <!--<p>已取关({{attNum}})</p>-->
+                <!--</div>-->
+                <!--<div class="prompt">-->
+                <!--<p style="background-color:#20a0ff;width: 50px;height: 15px"></p>-->
+                <!--<p>已关注({{proNum}})</p>-->
+                <!--</div>-->
+                <!--<div class="prompt">-->
+                <!--<p style="background-color:green;width: 50px;height: 15px"></p>-->
+                <!--<p>总人数({{peopleNum}})</p>-->
+                <!--</div>-->
 
-                        <!--</div>-->
+                <!--</div>-->
 
 
-                        <!--<div style="display: flex;justify-content: space-around;width: 50%;align-items: center">-->
-                            <!--<el-progress type="circle" :percentage="attention" color="red"></el-progress>-->
-                            <!--<el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>-->
-                            <!--<el-progress type="circle" :percentage="100" color="green"></el-progress>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                <!--<div style="display: flex;justify-content: space-around;width: 50%;align-items: center">-->
+                <!--<el-progress type="circle" :percentage="attention" color="red"></el-progress>-->
+                <!--<el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>-->
+                <!--<el-progress type="circle" :percentage="100" color="green"></el-progress>-->
+                <!--</div>-->
+                <!--</div>-->
 
 
                 <!--</div>-->
@@ -137,9 +139,9 @@
 
         <!--底部-->
         <!--<div class="footer">-->
-            <!--<el-footer class="el-footer" height="30">-->
-                <!--Copyright 2018 yueweidianshan.AllRightsReserved.-->
-            <!--</el-footer>-->
+        <!--<el-footer class="el-footer" height="30">-->
+        <!--Copyright 2018 yueweidianshan.AllRightsReserved.-->
+        <!--</el-footer>-->
         <!--</div>-->
 
 
@@ -230,7 +232,7 @@
     import inedxPage from './index'
 
     export default {
-        components: {Admin_list, adminList, fanslist, wxSet, CtiList, Redenvelope, audit, Envelopeissue,inedxPage},
+        components: {Admin_list, adminList, fanslist, wxSet, CtiList, Redenvelope, audit, Envelopeissue, inedxPage},
 
         data() {
             const item = {
@@ -240,51 +242,57 @@
             return {
                 tableData: Array(20).fill(item),
                 activeName: 'second',
-                editableTabsValue2: 1,
+                editableTabsValue2: 0,
                 editableTabs2: [
                     //     {
                     //     title: '首页',
                     //     name: '1',
-                    //     content: this.$router.push('inedxPage')
+                    //     content: this.$router.push('indexPage')
                     // }
                 ],
                 tabIndex: 0,
                 indexPage: true,
                 Tabs: false,
                 menHeight: 0,//左侧菜单高度
-                tagsname:[],//已有的菜单
-                iconImg:'',//用户头像
+                tagsname: [],//已有的菜单
+                iconImg: '',//用户头像
 
             }
         },
-
         methods: {
-
             //新增选项卡
-            addTab(Tagname,url) {
-                this.Tabs = true;
-                    var num
+            addTab(Tagname, url) {
+                // this.Tabs = true;
+                let num
                 //循环判断如果有已打开选项卡就返回true
-                let a=this.editableTabs2.some((item,index)=>{
-                    num=index+1
-                    return item.title==Tagname
+                let a = this.editableTabs2.some((item, index) => {
+                    num = index+1
+                    return item.title == Tagname
                 })
-
-                console.log(a)
-                    if (a){
-                        this.editableTabsValue2 = num.toString()
-                        console.log(this.editableTabsValue2)
-                    }else {
-                        let newTabName = ++this.tabIndex + '';
-                        this.editableTabs2.push({
-                            title: Tagname,
-                            name: newTabName,
-                            content: this.$route.path
-                        });
-                        this.editableTabsValue2 = newTabName;
-                    }
+                if (a) {
+                    //列表中包含已有打开的选项卡
+                    this.editableTabsValue2 = num.toString()//标题选中已打开的选项卡
+                    // this.tabIndex = num//坐标从最后一个选项卡开始
 
 
+                        console.log(num)
+                    sessionStorage.setItem('tabName', this.editableTabsValue2)//记录已有选项卡中最后选中第几个菜单
+
+                } else {
+                    let newTabName = ++this.tabIndex + '';
+                    this.editableTabs2.push({
+                        title: Tagname,
+                        name: newTabName,
+                        content: this.$route.path
+                    });
+                    this.editableTabsValue2 = newTabName;
+
+                    console.log(this.tabIndex)
+                    console.log(newTabName)
+                    sessionStorage.setItem('menu', JSON.stringify(this.editableTabs2))//记录选项卡中所有信息
+                    sessionStorage.setItem('tabName', this.editableTabsValue2)//记录新增选项卡最后选中第几个菜单
+
+                }
 
                 // for (var i = 0; i < this.editableTabs2.length; i++){
                 //     this.tagsname.push(this.editableTabs2[i].title)
@@ -313,9 +321,23 @@
 
             },
 
+            //页面刷新时，记录选卡
+            shuaxin: function () {
+                let a = JSON.parse(sessionStorage.getItem('menu'))
+                if (a != null) {
+                    //判断选项卡存在
+                    JSON.parse(sessionStorage.getItem('menu')).forEach(item => {
+                        this.editableTabs2.push(item)
+                    })
+                    this.editableTabsValue2 = sessionStorage.getItem('tabName') //获取最后选中的是哪个
+                    this.tabIndex = this.editableTabs2.length//把长度设为已有选项卡的数组长度，如果有新增选项卡，则从长度开始添加
+                }
+            },
+
+
             //选项卡被选中时触发
             handleClick: function (tab, event) {
-                var routerUrl = tab.$attrs.urlTag.content
+                let routerUrl = tab.$attrs.urlTag.content
                 this.$router.push(routerUrl.substring(1))
             },
 
@@ -335,41 +357,40 @@
                         });
                     }
                     this.editableTabsValue2 = activeName;
+                    console.log(activeName)
                     this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
 
-                    // var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
-                    console.log(targetName)
-                    console.log(this.editableTabs2.length)
+                    //将移除后的数组保存记录
+                    sessionStorage.setItem('menu', JSON.stringify(this.editableTabs2))
+                    sessionStorage.setItem('tabName', this.editableTabsValue2)
+                    var rou = this.editableTabs2[this.editableTabs2.length - 1].content.substring(1);
                     //获取已经删除标签的上一个标签信息
-                    // this.$router.push(rou)
+                    this.$router.push(rou)
                 } else {
                     alert('默认标签首页不允许关闭哦')
                 }
-
-
             },
-
 
             //退出登录
             logout: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/logout', {
+                this.$http.get('http://jiajiachuang.cn/junran/manage/logout', {
                     headers: {token: this.$cookies.get('token')}
                 })
+                sessionStorage.clear()//清空所有选项卡信息
                 this.$router.push('./')
             }
-
-
         }
         ,
         created: function () {
 
+            this.shuaxin()
+            // this.editableTabs2=JSON.parse(sessionStorage.getItem('menu'))
+
+
             this.name = this.$cookies.get('name');
-            this.iconImg=this.$cookies.get('icon')
+            this.iconImg = this.$cookies.get('icon')
             this.menHeight = window.innerHeight - 50
-
-
         },
-
     }
     ;
 </script>

@@ -9,12 +9,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 import {Pagination} from 'element-ui';
 import './assets/font/iconfont.css'
 import axios from 'axios'
+import md5 from 'js-md5'
+import {store} from "./store/store";
 
 Vue.prototype.$axios = axios
+Vue.prototype.$md5=md5
 //
 //
 axios.interceptors.response.use(
     response => {
+
         if (response.data.code==103){
             alert('身份验证过期，请重新登录');
            router.push('./');
@@ -28,7 +32,7 @@ axios.interceptors.response.use(
         //         alert()
         //     }
         // }
-        alert(1)
+
         return Promise.reject(error)
 
     }
@@ -42,6 +46,7 @@ Vue.use(Pagination)
 
 
 new Vue({
+    store:store,
     router,
     render: h => h(App)
 }).$mount('#app')

@@ -93,7 +93,7 @@
         </el-table>
         <div>
             <el-pagination
-                    layout="prev, pager, next"
+                    layout="total,prev, pager, next"
                     :total="Envcount"
                     :page-size="Envsize"
                     @current-change="fenPage"
@@ -133,12 +133,13 @@
             fenPage: function (page) {
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
                     headers: {token: this.$cookies.get('token')},
-                    params: {size: 10, state: '02', page: page - 1}
+                    params: {size: 10, state: '02', page: page - 1,sendRedPack: this.value, startTime: this.startTIME,endTime: this.endTIME}
                 }).then(res => {
                     if (res.data.code == 0) {
                         this.EnveList = res.data.data
+                        this.Envcount=res.data.count
+                        this.Envsize=res.data.size
                     }
-
                 })
             },
             //搜索按钮
@@ -188,8 +189,6 @@
                 } else {
                     alert('选中的红包中包含已发送的，请勿重复发送！')
                 }
-
-
             },
             //发送红包
             Issu: function (id, state) {
@@ -198,18 +197,13 @@
                     this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: [id]}, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
-                        console.log(res.data)
                         if (res.data.code == 0) {
                             window.location.reload()
-
                         }
-
                     })
                 } else {
                     alert('您已发送，请勿重复发送')
                 }
-
-
             }
         },
         created: function () {

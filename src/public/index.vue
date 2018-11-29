@@ -87,7 +87,9 @@
             }).then(res => {
                 this.proNum = res.data.count
                 //加上三目运算，防止出现infinity
-                this.Focus = (this.peopleNum == 0 ? 1 : res.data.count / this.peopleNum * 100).toFixed(2)
+                // this.Focus = (this.peopleNum == 0 ? 1:res.data.count / this.peopleNum * 100).toFixed(0)
+                let focus=(this.peopleNum == 0 ? 1:res.data.count / this.peopleNum * 100).toFixed(2)
+                this.Focus = parseFloat(focus)
 
             })
 
@@ -98,7 +100,9 @@
                 params: {size: 999999, subscribe: 0}
             }).then(res => {
                 this.attNum = res.data.count
-                this.attention = (this.peopleNum == 0 ? 0 : res.data.count / this.peopleNum * 100).toFixed(2)
+                let attention=(this.peopleNum == 0 ? 0 : res.data.count / this.peopleNum * 100).toFixed(2)
+                this.attention = parseFloat(attention)
+
             })
 
 

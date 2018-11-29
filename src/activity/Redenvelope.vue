@@ -137,7 +137,7 @@
         </template>
         <div>
             <el-pagination
-                    layout="prev, pager, next"
+                    layout="total,prev, pager, next"
                     :total="count"
                     :page-size="size"
                     @current-change="taggPage"
@@ -280,6 +280,8 @@
                 }).then(res => {
                     if (res.data.code == 0) {
                         this.red = res.data.data
+                        this.count=res.data.count
+                        this.size=res.data.size
                         this.loading = false
                     }
                 })
@@ -350,11 +352,10 @@
             //红包切换，停用启用
             redTagg: function (id, state) {
                 var s = state == '01' ? '02' : '01'
-
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
                     ids: [id],
                     state: s
-                }), {
+                }, {
                     headers: {token: this.$cookies.get('token')}
                 }).then(res => {
                     console.log(res.data)
@@ -366,13 +367,13 @@
             },
             //分页
             taggPage: function (val) {
-
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
                     headers: {token: this.$cookies.get('token')},
-                    params: {page: val - 1, size: 10}
+                    params: {page: val - 1, size: 10,name: this.redName, state: this.value}
                 }).then(res => {
-                    console.log(res.data)
                     this.red = res.data.data
+                    this.count=res.data.count
+                    this.size=res.data.size
                 })
 
             }

@@ -69,7 +69,6 @@
                     :data="fans"
                     style="width: 100%"
                     v-loading="loading"
-
             >
                 <el-table-column
                         fixed
@@ -161,13 +160,14 @@
 
 
         <!--分页-->
-        <el-pagination
-                @current-change="handleCurrentChange"
-                layout="prev, pager, next"
-                :page-size="this.size"
-                :page-count="this.page"
-        >
-        </el-pagination>
+        <div class="block">
+            <el-pagination
+                    @current-change="handleCurrentChange"
+                    layout="total,prev, pager, next"
+                    :page-size="this.size"
+                    :total="this.count">
+            </el-pagination>
+        </div>
 
 
     </div>
@@ -182,6 +182,7 @@
                 total: 0,
                 size: 0,
                 page: 0,
+                count: 0,
                 dialogVisibox: false,
                 dynamicTags: [],
                 inputVisible: false,
@@ -229,7 +230,7 @@
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {
-                        size: 5,
+                        size: 9,
                         nickname: this.username,
                         subscribe: this.searchState,
                         tag: this.searchTagId
@@ -237,7 +238,10 @@
                     }
                 }).then(res => {
                     // this.fans.length==0;
+                    console.log(res.data)
+                    this.count = res.data.count
                     this.fans = res.data.data
+                    this.page = res.data.pageCount
                     this.loading = false
                 })
 
@@ -275,20 +279,17 @@
             //给用户添加标签
             addTagNmae: function () {
 
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/updateTag', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/updateTag', {
                     ids: this.TagId,
                     state: this.userId
-                }), {
+                }, {
                     headers: {
                         token: this.$cookies.get('token')
                     }
                 }).then(res => {
                     alert('修改成功')
                     window.location.reload()
-
                 })
-
-
             },
 
             selected: function () {
@@ -303,8 +304,12 @@
                         token: this.$cookies.get('token')
                     },
                     params: {
-                        size: 5,
-                        page: val - 1
+                        size: 9,
+                        subscribe: this.searchState,
+                        page: val - 1,
+                        nickname: this.username,
+                        tag: this.searchTagId
+
                     }
 
                 }).then(res => {
@@ -350,7 +355,7 @@
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 console.log(this.dynamicTags)
-                var val = JSON.stringify({name: inputValue})
+                let val = {name: inputValue}
                 this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', val,
                     {
                         headers: {token: this.$cookies.get('token')}
@@ -381,11 +386,10 @@
             //修改标签
             inputUpdata: function (id, e) {
                 var tagName = e.target.value
-
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', JSON.stringify({
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', {
                         "id": id,
                         "name": tagName
-                    }),
+                    },
                     {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
@@ -399,11 +403,12 @@
                     token: this.$cookies.get('token')
                 },
                 params: {
-                    size: 5
+                    size: 9
                 }
 
             }).then(res => {
                 this.fans = res.data.data
+                this.count = res.data.count
                 this.size = res.data.size
                 this.page = res.data.pageCount
                 var data = res.data.data
@@ -413,7 +418,6 @@
                         this.fanTag.push({id: data[i].tag[j].id, name: data[i].tag[j].name})
                     }
                 }
-
 
 
             })

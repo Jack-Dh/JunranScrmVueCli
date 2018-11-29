@@ -38,13 +38,12 @@
         },
         methods: {
             login: function () {
-                var username = this.username
-                var password = this.password
-                var resule = JSON.stringify({'username': username, 'password': password})
+                let username = this.username
+                let password = this.password
+                let resule={'username': username, 'password': password}
 
                 //请求接口，拿token
-                this.$http.post('http://jiajiachuang.cn/junran/manage/login', resule).then(res => {
-                    console.log(res.data)
+                this.$axios.post('http://jiajiachuang.cn/junran/manage/login', resule).then(res => {
                     if (res.data.code == 0) {
 
                         this.$cookies.set('token', res.data.rs.token);//将token保存到cookie
@@ -55,6 +54,7 @@
                         this.$cookies.set('nickName', res.data.rs.operator.name)//用户昵称
                         this.$cookies.set('icon', res.data.rs.operator.icon)
 
+                              this.$cookies.set('WUWUWU',this.$md5('admin'))
 
                         this.$router.push({path: '/Contioiner'});
                     } else {

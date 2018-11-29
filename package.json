@@ -12,10 +12,12 @@
     "element": "^0.1.4",
     "element-ui": "^2.4.8",
     "js-cookie": "^2.2.0",
+    "js-md5": "^0.7.3",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
     "vue-cookies": "^1.5.7",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",

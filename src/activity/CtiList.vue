@@ -203,9 +203,10 @@
         <div class="block">
 
             <el-pagination
-                    layout="prev, pager, next"
+                    layout="total,prev, pager, next"
                     @current-change="changePage"
-                    :page-count="pageCount"
+                    :page-size="pageSize"
+                    :total="count"
             >
             </el-pagination>
 
@@ -324,6 +325,8 @@
                 Upshop: '',//修改活动店铺
                 Upremark: '',//修改活动说明
                 Upmax: '',//修改活动最大参与人数
+                pageSize:0,//每页显示数量
+                count:0,//总条目数
                 loading: true
             }
         },
@@ -333,7 +336,7 @@
                 console.log(this.envelope)
 
                 if (this.remark != '' && this.shop != '' && this.participationCondition != '' && this.award != '' && this.activityName != '' && this.envelope != '' && this.max != '' && this.shopIcon != '' && this.endTime != '' && this.startTime != '') {
-                    var data = JSON.stringify({
+                    let data = {
                         remark: this.remark,
                         shop: this.shop,
                         participationCondition: this.participationCondition,
@@ -344,7 +347,7 @@
                         shopIcon: this.shopIcon,
                         endTime: this.endTime,
                         startTime: this.startTime
-                    })
+                    }
 
                     this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
                         headers: {token: this.$cookies.get('token')}
@@ -383,7 +386,7 @@
             YseupCti: function () {
                 this.upcti = false
                 if (this.Upremark != '' && this.Upshop != '' && this.UpparticipationCondition != '' && this.Upaward != '' && this.UpactivityName != '' && this.envelope != '' && this.Upmax != '' && this.UpshopIcon != '' && this.UpendTime != '' && this.UpstartTime != '') {
-                    var data = JSON.stringify({
+                    let data = {
                         remark: this.Upremark,
                         shop: this.Upshop,
                         participationCondition: this.UpparticipationCondition,
@@ -395,7 +398,7 @@
                         endTime: this.UpendTime,
                         startTime: this.UpstartTime,
                         id: this.Upid,
-                    })
+                    }
                     this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
@@ -454,6 +457,8 @@
                 }).then(res => {
                     console.log(res.data)
                     this.ctilist = res.data.data
+                    this.count=res.data.count
+                    this.pageSize=res.data.size
                     this.loading = false
                 })
             },
@@ -463,13 +468,13 @@
                 if (this.ctistate.indexOf('01') != -1) {
                     alert('选择的活动中已有开启的活动了，请勿重复开启！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', {
                         ids: this.multipleSelection,
                         state: '01'
-                    }), {
+                    }, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
-                        console.log(res.data)
+
                         window.location.reload()
                     })
                 } else {
@@ -481,10 +486,10 @@
                 if (this.ctistate.indexOf('02') != -1) {
                     alert('选择的活动中已有关闭的活动了，请勿重复关闭！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', JSON.stringify({
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', {
                         ids: this.multipleSelection,
                         state: '02'
-                    }), {
+                    }, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         console.log(res.data)
@@ -500,11 +505,10 @@
             togg: function (id, state) {
                 var a = state == '01' ? '02' : '01'
 
-                var data = JSON.stringify({ids: [id], state: a})
+                var data = {ids: [id], state: a}
                 this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', data, {
                     headers: {token: this.$cookies.get('token')}
                 }).then(res => {
-                    console.log(res.data)
                     window.location.reload()
                 })
 
@@ -513,10 +517,11 @@
             changePage: function (val) {
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
                     headers: {token: this.$cookies.get('token')},
-                    params: {size: 10, page: val - 1}
+                    params: {size: 9, state: this.value, activityName: this.ctiName,page: val - 1}
                 }).then(res => {
                     this.ctilist = res.data.data
-
+                    this.count=res.data.count
+                    this.pageSize=res.data.size
                     console.log(res.data)
                 })
             },
@@ -538,6 +543,8 @@
             }).then(res => {
                 console.log(res.data)
                 this.ctilist = res.data.data
+                this.count=res.data.count
+                this.pageSize=res.data.size
                 this.pageCount = res.data.pageCount
                 this.loading = false
 

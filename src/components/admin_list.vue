@@ -30,7 +30,6 @@
                 <el-button style="margin: 1%" type="primary" @click="addadmin">确 定</el-button>
 
             </el-dialog>
-
             <el-table
                     :data="intel"
                     style="width: 100%;"
@@ -90,8 +89,6 @@
 
                 </el-table-column>
             </el-table>
-
-
         </template>
         <el-dialog
                 title="修改信息"
@@ -111,15 +108,11 @@
                 <img v-if="upimageUrl" :src="upimageUrl" class="avatar" >
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
-
-
-
-
-
-
             <el-input :value="name" v-model="name" placeholder="请输入昵称"></el-input>
             <el-input :value="username" v-model="username" placeholder="请输入账号"></el-input>
             <el-input :value="password" v-model="password" placeholder="请输入密码" type="password"></el-input>
+            <el-input v-model="Confirmpassword" placeholder="确认密码" type="password"></el-input>
+
             <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="yes">确 定</el-button>
@@ -128,12 +121,11 @@
         <div class="block" ref="pageheight">
             <el-pagination
                     @current-change="handleCurrentChange"
-                    layout="prev, pager, next"
-                    :page-count="this.pageCount"
+                    layout="total,prev, pager, next"
+                    :total="this.count"
                     :page-size="this.size">
             </el-pagination>
         </div>
-
 
     </div>
 </template>
@@ -146,10 +138,12 @@
                 intel: [],
                 pageCount: 0,
                 size: 0,
+                count:0,
                 id: 0,
                 name: '',
                 username: '',
                 password: '',
+                Confirmpassword:'',//确认密码
                 dialogVisible: false,
                 adminName: '',
                 addAdmin: false,
@@ -192,13 +186,14 @@
                 if (this.addpassword != this.addpasswords) {
                     alert('两次密码输入不一致')
                 } else {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert', JSON.stringify({
+                    let data={
                         name: this.addname,
                         password: this.addpassword,
                         username: this.addusername,
-                        icon:this.adminImg
-                    }), {
-                        headers: {token: this.$cookies.get('token')}
+                        icon:this.adminImg}
+
+                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert',data,{
+                        headers: {token:this.$cookies.get('token')}
                     }).then(res => {
                         if (res.data.code == 0) {
                             alert('添加成功！')
@@ -214,11 +209,12 @@
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
                     headers: {token: this.$cookies.get('token')},
                     params: {
-                        size: 10,
+                        size: 8,
                         username: this.adminName
                     }
                 }).then(res => {
                     this.intel = res.data.data
+                    this.count=res.data.count
                 })
 
 
@@ -229,8 +225,9 @@
                         token: this.$cookies.get('token')
                     },
                     params: {
-                        size: '10',
-                        page: val - 1
+                        size: 8,
+                        page: val - 1,
+                        username: this.adminName
                     }
                 }).then(res => {
                     this.intel = res.data.data
@@ -243,25 +240,23 @@
 
             //修改管理员信息
             update: function (id, name, username) {
-
                 this.id = id
                 this.name = name
                 this.username = username
-
-
             },
             yes: function () {
-                var name = this.name
-                var username = this.username
-                var id = this.id
-                var pass = this.password
-                var icon=this.upDataImg
-                var data = JSON.stringify({name: name, username: username, id: id, password: pass,icon:icon})
-
-
-                if (name == '' || username == '' || pass == '') {
+                let name = this.name
+                let username = this.username
+                let id = this.id
+                let pass = this.password
+                let ConPass=this.Confirmpassword
+                let icon=this.upDataImg
+                let data = {name: name, username: username, id: id, password: pass,icon:icon};
+                if (name == '' || username == '' || pass == ''||ConPass=='') {
                     alert('信息填写不完全')
-                } else {
+                }else if (pass!==ConPass){
+                    alert('两次输入不一致')
+                }else {
                     this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert', data, {
                         headers: {
                             token: this.$cookies.get('token')
@@ -304,6 +299,7 @@
                     name: this.$cookies.get('nickName'),
                     password: this.$cookies.get('password'),
                     id: this.$cookies.get('id'),
+                    icon:this.$cookies.get('icon'),
                     username: name,
                 }]
                 this.intel = adminData
@@ -314,12 +310,13 @@
                         token: this.$cookies.get('token')
                     },
                     params: {
-                        size: '10'
+                        size: 8
                     }
                 }).then(res => {
                     this.intel = res.data.data
                     this.pageCount = res.data.pageCount
                     this.size = res.data.size
+                    this.count=res.data.count
                     this.loading = false
 
 

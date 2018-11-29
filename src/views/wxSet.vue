@@ -87,16 +87,15 @@
                                 {{index+1}}.
                                 {{item.menFirTitle}}
                             </el-dropdown-item>
-                            <el-dropdown-item @click.native="addMenu">添加菜单</el-dropdown-item>
+                            <el-dropdown-item v-if="addmenTagg" @click.native="addMenu">添加菜单</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
-
-
                 <div style="margin-left: 10%">
                     <el-input v-model="menFirTitle"></el-input>
                     <el-input v-model="menFirUrl"></el-input>
                     <el-button type="danger" @click="save" class="save">保存</el-button>
+                    <span>{{par}}</span>
                 </div>
 
             </div>
@@ -108,6 +107,11 @@
 <script>
     export default {
         name: "wxSet",
+        computed:{
+            par(){
+                return this.$store.state.par
+            }
+        },
         data() {
             return {
                 wxdata: [],
@@ -123,44 +127,63 @@
                 menFirTitle: '',
                 menFirUrl: '',
                 id: '',
+                addmenTagg:true,//判读是否需要添加菜单按钮
 
             }
         },
         methods: {
+            //微信设置刷新
+            wxSetShuaxin(){
+                this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/refreshMenus',{
+                    headers:{token:this.$cookies.get('token')}
+                })
+
+            },
             //保存，并提交服务器
             save() {
                     var a = {menFirTitle: this.menFirTitle, menFirUrl: this.menFirUrl}
-                    if (this.menFirTitle==''&&this.menFirUrl==''){  //判断菜单是否为空，如果为空则表示删除当前菜单
-                        this.menus.splice(this.index, 1)
-                        var b = JSON.stringify({
-                            id: this.id,
-                            bannerImages: this.imgdata,
-                            menus: this.menus
-                        })
-                        this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
-                            headers: {token: this.$cookies.get('token')}
-                        }).then(res => {
-                            if(res.data.code==0){
-                                alert('保存成功')
-                            }
-                        })
-
+                    if ((this.menFirTitle!=''&&this.menFirUrl=='')||(this.menFirTitle==''&&this.menFirUrl!='')){
+                        alert('信息填写不完全')
                     } else {
-                        this.menus.splice(this.index, 1, a)
-                        var b = JSON.stringify({
-                            id: this.id,
-                            bannerImages: this.imgdata,
-                            menus: this.menus
-                        })
-                        this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
-                            headers: {token: this.$cookies.get('token')}
-                        }).then(res => {
-                            console.log(res.data)
-                            if(res.data.code==0){
-                                alert('保存成功')
+                        if (this.menFirTitle==''&&this.menFirUrl==''){  //判断菜单是否为空，如果为空则表示删除当前菜单
+                            this.menus.splice(this.index, 1)
+                            let b = {
+                                id: this.id,
+                                bannerImages: this.imgdata,
+                                menus: this.menus
                             }
-                        })
+                            this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
+                                headers: {token: this.$cookies.get('token')}
+                            }).then(res => {
+                                if(res.data.code==0){
+                                    alert('保存成功')
+                                    this.wxSetShuaxin()
+                                    window.location.reload()
+                                }
+                            })
+
+                        } else {
+                            this.menus.splice(this.index, 1, a)
+                            let b ={
+                                id: this.id,
+                                bannerImages: this.imgdata,
+                                menus: this.menus
+                            }
+                            this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
+                                headers: {token: this.$cookies.get('token')}
+                            }).then(res => {
+                                console.log(res.data)
+                                if(res.data.code==0){
+                                    alert('保存成功')
+                                    this.wxSetShuaxin()
+                                    window.location.reload()
+                                }
+                            })
+                        }
                     }
+
+
+
 
             },
             mouseover() {
@@ -173,6 +196,11 @@
             //添加菜单
             addMenu(){
                 this.menus.push({menFirTitle:"",menFirUrl:"",menuSeconds:[]})
+                if (this.menus.length>=3){
+                    this.addmenTagg=false
+                }else {
+                    this.addmenTagg=true
+                }
                 this.menFirTitle = '';
                 this.menFirUrl = '';
                 this.index = this.menus.length-1
@@ -220,12 +248,14 @@
                 this.imgdata = res.data.rs.bannerImages
                 this.menus = res.data.rs.menus
                 this.id = res.data.rs.id
-
-
                 this.menFirTitle = this.menus[0].menFirTitle
                 this.menFirUrl = this.menus[0].menFirUrl
+                if (res.data.rs.menus.length>=3){
+                    this.addmenTagg=false
+                }else {
+                    this.addmenTagg=true
+                }
 
-                console.log(this.id)
             })
 
         }

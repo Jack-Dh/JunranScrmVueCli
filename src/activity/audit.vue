@@ -182,7 +182,7 @@
 
             <div class="block">
                 <el-pagination
-                        layout="prev, pager, next"
+                        layout="total,prev, pager, next"
                         :total="count"
                         :page-size="size"
                         @current-change="currChange"
@@ -293,7 +293,7 @@
             currChange: function (val) {
                 this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
                     headers: {token: this.$cookies.get('token')},
-                    params: {size: 10, page: val - 1}
+                    params: {size: 10, page: val - 1,auditStartTime:this.auditStartTime,auditEndTime:this.auditEndTime,keyword:this.actiName,state:this.value}
                 }).then(res => {
                     if (res.data.code == 0) {
                         this.acditList = res.data.data
