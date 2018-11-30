@@ -49,14 +49,14 @@
                         this.$cookies.set('token', res.data.rs.token);//将token保存到cookie
                         this.$cookies.set('id', res.data.rs.operator.id)//用户id
                         this.$cookies.set('name', res.data.rs.operator.username);//将用户名保存到cookie
-                        this.$cookies.set('password', res.data.rs.operator.password)//将登陆密码存到cookie
+                        this.$cookies.set('password',this.$md5(res.data.rs.operator.password))//将登陆密码存到cookie(加密)
                         this.$cookies.set('createTime', res.data.rs.operator.createTime)//将添加时间
                         this.$cookies.set('nickName', res.data.rs.operator.name)//用户昵称
                         this.$cookies.set('icon', res.data.rs.operator.icon)
-
-                              this.$cookies.set('WUWUWU',this.$md5('admin'))
-
+                        // this.$store.state.token=res.data.rs.token //将数据写在vuex
+                        this.$store.state.password=res.data.rs.operator.password
                         this.$router.push({path: '/Contioiner'});
+
                     } else {
                         alert(res.data.message)
                     }

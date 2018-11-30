@@ -11,11 +11,24 @@ import './assets/font/iconfont.css'
 import axios from 'axios'
 import md5 from 'js-md5'
 import {store} from "./store/store";
+import echarts from 'echarts'
 
+Vue.prototype.$echarts=echarts
 Vue.prototype.$axios = axios
 Vue.prototype.$md5=md5
 //
 //
+
+// axios.defaults.headers.common['token'] =`${store.state.token}`;
+//请求拦截器
+// axios.interceptors.request.use(
+//     config=>{
+//
+//         return config
+//     }
+// )
+
+//响应拦截器
 axios.interceptors.response.use(
     response => {
 

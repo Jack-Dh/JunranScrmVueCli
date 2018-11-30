@@ -68,13 +68,7 @@
 
                 >
                 </el-table-column>
-                <el-table-column
-                        prop="password"
-                        label="密码"
-                        align="center"
 
-                >
-                </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
@@ -297,7 +291,8 @@
                 var adminData = [{
                     createTime: this.$cookies.get('createTime'),
                     name: this.$cookies.get('nickName'),
-                    password: this.$cookies.get('password'),
+                    // password: this.$cookies.get('password'),
+                    // password:this.$store.state.password,
                     id: this.$cookies.get('id'),
                     icon:this.$cookies.get('icon'),
                     username: name,
@@ -333,7 +328,6 @@
 
 <style scoped>
     .admin_list {
-        height: 100%;
         width: 100%;
     }
 

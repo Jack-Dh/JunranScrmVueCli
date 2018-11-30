@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
 
-export  const  store=new Vuex.Store({
-    state:{
-        par:2
-    }
+Vue.use(Vuex)
+export const store = new Vuex.Store({
+    state: {
+        token: '',
+        username: '',
+        password: '',
+    },
+
 })

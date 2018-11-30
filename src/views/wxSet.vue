@@ -95,7 +95,7 @@
                     <el-input v-model="menFirTitle"></el-input>
                     <el-input v-model="menFirUrl"></el-input>
                     <el-button type="danger" @click="save" class="save">保存</el-button>
-                    <span>{{par}}</span>
+
                 </div>
 
             </div>
@@ -107,11 +107,7 @@
 <script>
     export default {
         name: "wxSet",
-        computed:{
-            par(){
-                return this.$store.state.par
-            }
-        },
+
         data() {
             return {
                 wxdata: [],
@@ -240,9 +236,7 @@
         },
         created: function () {
             this.myHeaders = {token: this.$cookies.get('token')}
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/get', {
-                headers: {token: this.$cookies.get('token')}
-            }).then(res => {
+            this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/get',{headers:{token: this.$cookies.get('token')}}).then(res => {
                 console.log(res.data)
                 this.wxdata = res.data.rs
                 this.imgdata = res.data.rs.bannerImages
