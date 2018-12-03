@@ -4,7 +4,7 @@
 
         <div class="header">
             <el-header
-                    style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #393d49">
+                    style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 50px;color: #FFFFFF;background-color: #232838">
 
                 <span style="font-size: 1rem;font-weight: bold">骏然CRM</span>
                 <div style="display: flex;align-items: center;justify-content: space-around;width: 10%">
@@ -18,13 +18,16 @@
 
         <!--中间-->
         <div id="index">
-
+            <!--style="background-color: #282b33"-->
             <!--左侧菜单-->
             <div style="width: 18%;background-color: #393d49; ">
                 <el-aside style="width: 100%;background-color: #393d49;height: 100%">
-                    <el-menu style="background-color:#393d49;height: 100%;overflow: hidden">
-                        <el-menu-item index="0" style="font-size: 1rem;color: #ffffff"
-                                      @click="$router.push('inedxPage');addTab('首页',$route.path)">
+                    <el-menu
+                            style="height: 100%;overflow: hidden;"
+                            background-color="#393d49"
+                            text-color="#fff"
+                    >
+                        <el-menu-item index="0" @click="$router.push('inedxPage');addTab('首页',$route.path)">
                             <i class="fontFamily hhtx-yemian"></i>&nbsp;&nbsp;
                             <span slot="title">首&nbsp;&nbsp;页</span>
                         </el-menu-item>
@@ -32,9 +35,9 @@
                         <el-submenu index="1">
                             <template slot="title">
                                 <i class="fontFamily hhtx-guanli"></i>
-                                <span style="font-size: 1rem;color: #ffffff">系统管理</span>
+                                <span>系统管理</span>
                             </template>
-                            <el-menu-item-group style="background-color: #282b33">
+                            <el-menu-item-group>
                                 <el-menu-item index="1-1"
                                               @click="$router.push('admin_list');addTab('管理员管理',$route.path)"><span
                                         class="fontstyle">管理员管理</span></el-menu-item>
@@ -48,8 +51,8 @@
                         <el-submenu index="2">
                             <template slot="title">
                                 <i class="fontFamily hhtx-weixinguanli"></i>
-                                <span style="font-size: 1rem;color: #ffffff">微信管理</span></template>
-                            <el-menu-item-group style="background-color: #282b33">
+                                <span>微信管理</span></template>
+                            <el-menu-item-group>
                                 <el-menu-item index="2-1"
                                               @click="$router.push('fansList');addTab('粉丝列表',$route.path)"><span
                                         class="fontstyle">粉丝列表</span></el-menu-item>
@@ -63,8 +66,8 @@
                         <el-submenu index="3">
                             <template slot="title">
                                 <i class="fontFamily hhtx-huodongguanli"></i>
-                                <span style="font-size: 1rem;color: #ffffff">活动管理</span></template>
-                            <el-menu-item-group style="background-color: #282b33">
+                                <span>活动管理</span></template>
+                            <el-menu-item-group>
                                 <el-menu-item index="3-1"
                                               @click="$router.push('CtiList');addTab('活动列表',$route.path)"><span
                                         class="fontstyle">活动列表</span></el-menu-item>
@@ -100,38 +103,7 @@
                 </el-tabs>
                 <router-view></router-view>
 
-                <!--<div class="indexPage" v-if="indexPage">-->
-                <!--<h3>骏然CRM网络平台粉丝管理系统</h3>-->
-                <!--<h4>欢迎您！</h4>-->
-                <!--<h1>{{Time | filtTime}}</h1>-->
 
-                <!--<div style="display: flex;justify-content:center;">-->
-                <!--<div style="margin: 2%">-->
-                <!--<div class="prompt">-->
-                <!--<p style="background-color: red;width: 50px;height: 15px"></p>-->
-                <!--<p>已取关({{attNum}})</p>-->
-                <!--</div>-->
-                <!--<div class="prompt">-->
-                <!--<p style="background-color:#20a0ff;width: 50px;height: 15px"></p>-->
-                <!--<p>已关注({{proNum}})</p>-->
-                <!--</div>-->
-                <!--<div class="prompt">-->
-                <!--<p style="background-color:green;width: 50px;height: 15px"></p>-->
-                <!--<p>总人数({{peopleNum}})</p>-->
-                <!--</div>-->
-
-                <!--</div>-->
-
-
-                <!--<div style="display: flex;justify-content: space-around;width: 50%;align-items: center">-->
-                <!--<el-progress type="circle" :percentage="attention" color="red"></el-progress>-->
-                <!--<el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>-->
-                <!--<el-progress type="circle" :percentage="100" color="green"></el-progress>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
-                <!--</div>-->
             </div>
 
         </div>
@@ -151,6 +123,7 @@
 
 
 <style>
+    /*.el-menu-item :hover{background-color: red;display: block}*/
     .indexPage {
         width: 100%;
         text-align: center;
@@ -183,9 +156,7 @@
 
     }
 
-    .fontstyle {
-        color: #ffffff;
-    }
+
 
     .el-header {
         background-color: #B3C0D1;
@@ -218,6 +189,8 @@
         background-color: #393d49;
         width: 100%;
     }
+
+
 </style>
 
 <script>
@@ -385,7 +358,6 @@
 
             this.shuaxin()
             // this.editableTabs2=JSON.parse(sessionStorage.getItem('menu'))
-
 
             this.name = this.$cookies.get('name');
             this.iconImg = this.$cookies.get('icon')

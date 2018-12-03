@@ -1,42 +1,27 @@
 <template>
 
     <div class="indexPage">
-        <h3>骏然CRM网络平台粉丝管理系统</h3>
-        <h4>欢迎您！</h4>
-        <h1>{{Time | filtTime}}</h1>
+        <div style="width: 50%">
+            <h3>骏然CRM网络平台粉丝管理系统</h3>
+            <h4>欢迎您！</h4>
+            <h1>{{Time | filtTime}}</h1>
+        </div>
 
-        <!--<div style="display: flex;justify-content:center;">-->
-        <!--<div style="margin: 2%">-->
-        <!--<div class="prompt">-->
-        <!--<p style="background-color: red;width: 50px;height: 15px"></p>-->
-        <!--<p>已取关({{attNum}})</p>-->
-        <!--</div>-->
-        <!--<div class="prompt">-->
-        <!--<p style="background-color:#20a0ff;width: 50px;height: 15px"></p>-->
-        <!--<p>已关注({{proNum}})</p>-->
-        <!--</div>-->
-        <!--<div class="prompt">-->
-        <!--<p style="background-color:green;width: 50px;height: 15px"></p>-->
-        <!--<p>总人数({{peopleNum}})</p>-->
-        <!--</div>-->
-
-        <!--</div>-->
-
-
-        <!--<div style="display: flex;justify-content: space-around;width: 50%;align-items: center">-->
-        <!--<el-progress type="circle" :percentage="attention" color="red"></el-progress>-->
-        <!--<el-progress type="circle" :percentage="Focus" color="#20a0ff"></el-progress>-->
-        <!--<el-progress type="circle" :percentage="100" color="green"></el-progress>-->
-
-        <!--</div>-->
-        <!--</div>-->
 
         <!--图表数据-->
-        <div id="myChart" :style="{width: '50%',height:'300px'}"></div>
+        <div id="myChart"></div>
     </div>
 </template>
 
 <script>
+    // 引入 ECharts 主模块
+    let echarts = require('echarts/lib/echarts');
+    // 引入柱状图
+    require('echarts/lib/chart/pie');
+    // 引入提示框和标题组件
+    require('echarts/lib/component/tooltip');
+
+
     export default {
         name: "index",
         data() {
@@ -63,26 +48,29 @@
                 return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds
             }
         },
-        mounted() {
-            this.drawLine();
-        },
         methods: {
-            drawLine() {
 
+            drawLine() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'))
                 // 绘制图表
                 myChart.setOption({
                     tooltip: {},
-                    xAxis: {
-                        data: ["已关注", "未关注", "全部",]
-                    },
-                    yAxis: {},
+                    // xAxis: {
+                    //     data: ["已关注", "已取关", "全部",]
+                    // },
+                    // yAxis: {},
+
                     series: [
                         {
-                            name: '数量',
-                            type: 'bar',
-                            data: [this.Focus,this.attention,this.peopleNum]
+                            name: '粉丝数量',
+                            type: 'pie',
+                            data: [
+                                {'name': '已关注', value: this.Focus}, {name: '已取关', value: this.attention}, {
+                                    name: '全部粉丝',
+                                    value: this.peopleNum
+                                }
+                            ]
                         }
                     ]
 
@@ -90,6 +78,10 @@
 
             }
         },
+        beforeUpdate() {
+            this.drawLine();
+        },
+
         created() {
             let that = this
             setInterval(function () {
@@ -106,20 +98,20 @@
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 999999, subscribe: 1}
             }).then(res => {
-                this.Focus=res.data.count
+                this.Focus = res.data.count
             })
 
             //全部人数
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
+            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 999999}
             }).then(res => {
-                this.peopleNum=res.data.count
+                this.peopleNum = res.data.count
 
             })
 
             //取注人数
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
+            this.$http.get('http://jiajiachuang.cn/junran/manage/user/search', {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 999999, subscribe: 0}
             }).then(res => {
@@ -138,7 +130,21 @@
 </script>
 
 <style scoped>
+    .indexPage {
 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    #myChart {
+        height: 300px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
 </style>
 
 

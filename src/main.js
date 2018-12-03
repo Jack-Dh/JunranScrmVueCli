@@ -13,9 +13,10 @@ import md5 from 'js-md5'
 import {store} from "./store/store";
 import echarts from 'echarts'
 
-Vue.prototype.$echarts=echarts
+
+Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
-Vue.prototype.$md5=md5
+Vue.prototype.$md5 = md5
 //
 //
 
@@ -32,10 +33,11 @@ Vue.prototype.$md5=md5
 axios.interceptors.response.use(
     response => {
 
-        if (response.data.code==103){
+        if (response.data.code == 103) {
             alert('身份验证过期，请重新登录');
-           router.push('./');
-        }else {
+            sessionStorage.clear()//清空所有选项卡信息
+            router.push('./');
+        } else {
             return response
         }
     }),
@@ -59,7 +61,7 @@ Vue.use(Pagination)
 
 
 new Vue({
-    store:store,
+    store: store,
     router,
     render: h => h(App)
 }).$mount('#app')
