@@ -43,7 +43,20 @@
                         <el-form label-position="left" inline class="demo-table-expand">
 
                             <el-form-item label="好评图片">
-                                <img style="width: 20%" :src="'http://'+props.row.img" alt="用户好评图片">
+                                <!--<img style="width: 20%" :src="'http://'+props.row.img" alt="用户好评图片">-->
+
+                                <!--查看大图模块-->
+                                <el-popover
+                                        placement="top-start"
+                                        width="500"
+                                        trigger="hover"
+                                        >
+                                    <img style="width: 100%;height:400px" :src="'http://'+props.row.img" alt="用户好评图片">  <!--显示大图-->
+
+                                    <img slot="reference" style="width: 20%" :src="'http://'+props.row.img" alt="用户好评图片">
+                                </el-popover>
+
+
                             </el-form-item>
                             <br/>
                             <el-form-item label="活动名称">
@@ -139,8 +152,6 @@
                         align="center"
                         >
                 </el-table-column>
-
-
                 <el-table-column
                 type="index"
                 label="序号"

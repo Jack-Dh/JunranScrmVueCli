@@ -157,7 +157,6 @@
                                     window.location.reload()
                                 }
                             })
-
                         } else {
                             this.menus.splice(this.index, 1, a)
                             let b ={
@@ -171,7 +170,7 @@
                                 console.log(res.data)
                                 if(res.data.code==0){
                                     alert('保存成功')
-                                    this.wxSetShuaxin()
+                                    this.wxSetShuaxin()//调用微信刷新接口
                                     window.location.reload()
                                 }
                             })

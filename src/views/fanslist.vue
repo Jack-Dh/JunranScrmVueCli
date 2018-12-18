@@ -116,6 +116,7 @@
                 <el-table-column
                         prop="subscribeTime"
                         label="关注时间"
+                        sortable
                         align="center">
                 </el-table-column>
 
