@@ -91,24 +91,25 @@
         /*align-items: center;*/
     /*}*/
 
-    html{
+    html,body{
         width: 100%;
         height: 100%;
         overflow-x:hidden;
         overflow-y:auto;
+        margin: 0;
+        padding:0;
     }
-    body{
-        width: 100%;
-       height: 100%;
-    }
+    /*body{*/
+        /*width: 100%;*/
+       /*height: 100%;*/
+    /*}*/
 
     .home{
-        /*background: #eeeeee url() 0 0 no-repeat;*/
         background:url(../assets/bg.png) no-repeat center;
         background-size: cover;
         overflow: hidden;
-        height: 100%;
         width: 100%;
+        height: 100%;
 
 
     }

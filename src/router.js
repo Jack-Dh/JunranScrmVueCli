@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import index from './views/index'
-import admin_list from './components/admin_list'
-import operationList from './components/operationList'
-import operation from './views/operation'
-import Contioiner from './public/Contioiner'
-import fanslist from './views/fanslist'
-import wxSet from './views/wxSet'
-import ctilist from './activity/CtiList'
-import Redenvelope from './activity/Redenvelope'
-import audit from './activity/audit'
-import Envelopeissue from './activity/Envelopeissue'
-import hello from './components/HelloWorld'
-import inedxPage from './public/index'
+// import Home from './views/Home.vue'
+// import index from './views/index'
+// import admin_list from './components/admin_list'
+// import operationList from './components/operationList'
+// import operation from './views/operation'
+// import Contioiner from './public/Contioiner'
+// import fanslist from './views/fanslist'
+// import wxSet from './views/wxSet'
+// import ctilist from './activity/CtiList'
+// import Redenvelope from './activity/Redenvelope'
+// import audit from './activity/audit'
+// import Envelopeissue from './activity/Envelopeissue'
+// import hello from './components/HelloWorld'
+// import inedxPage from './public/index'
 
 
 Vue.use(Router)
@@ -25,73 +25,68 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: require('./views/Home.vue').default
         },
         {
             path: '/HelloWord',
             name: 'Hellow',
-            component: hello
+            component: require('./components/HelloWorld').default
         },
-
-        // {
-        //     path: '/about',
-        //     name: 'about',
-        //     // route level code-splitting
-        //     // this generates a separate chunk (about.[hash].js) for this route
-        //     // which is lazy-loaded when the route is visited.
-        //     component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-        // },
-
         {
             path: '/operation',
             name: 'operation',
-            component: operation
+            component: require('./views/operation').default
+
         },
         {
             path: '/Contioiner',
             name: 'Contioiner',
-            component: Contioiner,
+            component: require('./public/Contioiner').default,
             redirect: '/inedxPage',
             children: [{
                 path: '/admin_list',
                 name: 'admin_list',
-                component: admin_list
+                component: require('./components/admin_list').default,
             },
                 {
                     path: '/operationList',
                     name: 'operationList',
-                    component: operationList
+                    component: require('./components/operationList').default,
+
                 },
                 {
                     path: '/fanslist',
                     name: 'fanslist',
-                    component: fanslist
+                    component: require('./views/fanslist').default,
+
                 },
                 {
                     path: '/wxSet',
                     name: 'wxSet',
-                    component: wxSet
+                    component: require('./views/wxSet').default,
                 }, {
                     path: '/CtiList',
                     name: 'CtiList',
-                    component: ctilist
+                    component: require('./activity/CtiList').default,
                 },
                 {
                     path: '/Redenvelope',
                     name: 'Redenvelope',
-                    component: Redenvelope
+                    component: require('./activity/Redenvelope').default,
                 }, {
                     path: '/audit',
                     name: 'audit',
-                    component: audit
+                    component: require('./activity/audit').default,
+
                 }, {
                     path: '/Envelopeissue',
                     name: 'Envelopeissue',
-                    component: Envelopeissue
+                    component: require('./activity/Envelopeissue').default,
                 }, {
                     path: '/inedxPage',
                     name: 'inedxPage',
-                    component: inedxPage
+                    component: require('./public/index').default,
+
                 }
             ]
         }

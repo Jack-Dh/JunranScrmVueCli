@@ -87,7 +87,7 @@
             >
                 <template slot-scope="scope">
 
-                    <el-button type="text" @click="Issu(scope.row.id,scope.row.state)">发送红包</el-button>
+                    <el-button type="text" @click="Issu(scope.row.id,scope.row.sendRedpack,scope.row)">发送红包</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -165,23 +165,27 @@
             },
             //多选获取到的数据
             selChange: function (val) {
+
                 this.RedId.length = 0;
                 this.stater.length = 0;
                 for (var i = 0; i < val.length; i++) {
                     this.RedId.push(val[i].id)
-                    this.stater.push(val[i].state)
+                    this.stater.push(val[i].sendRedpack)
                 }
                 console.log(this.RedId)
             },
             //批量发送红包
             sendRed: function () {
-                var num = '02'
+                console.log(this.stater)
+                var num = '01'
                 if (this.stater.indexOf(num) == -1) {
                     if (this.RedId.length != 0) {
                         this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: this.RedId}, {
                             headers: {token: this.$cookies.get('token')}
                         }).then(res => {
-                            console.log(res.data)
+                            if (res.data.code == 0) {
+                                window.location.reload()
+                            }
                         })
                     } else {
                         alert('您还未选择任何红包！')
@@ -189,11 +193,15 @@
                 } else {
                     alert('选中的红包中包含已发送的，请勿重复发送！')
                 }
+
+
             },
             //发送红包
-            Issu: function (id, state) {
+            Issu: function (id, state,row) {
 
-                if (state == '01') {
+                console.log(row)
+
+                if (state != '01') {
                     this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: [id]}, {
                         headers: {token: this.$cookies.get('token')}
                     }).then(res => {
