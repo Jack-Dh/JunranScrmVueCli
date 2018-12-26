@@ -67,14 +67,12 @@
         name: "operationList",
         val: 0,
         methods: {
+            //分页
             handleCurrentChange(val) {
                 console.log(`当前页:` + val);
                 this.val = val
 
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    },
+                this.$axios.get(this.$store.state.operatorlog, {
                     params: {
                         size: 10,
                         page: this.val - 1
@@ -102,10 +100,7 @@
             }
         },
         created: function () {
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/operatorlog/search', {
-                headers: {
-                    token: this.$cookies.get('token')
-                },
+            this.$axios.get(this.$store.state.operatorlog, {
                 params: {
                     size: 10,
                     page: this.val
@@ -117,7 +112,6 @@
                 this.total = res.data.count
                 this.page = res.data.page
                 this.loading = false
-                console.log(this.oper)
             })
 
         },

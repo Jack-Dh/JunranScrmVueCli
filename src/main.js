@@ -22,12 +22,18 @@ Vue.prototype.$md5 = md5
 
 // axios.defaults.headers.common['token'] =`${store.state.token}`;
 //请求拦截器
-// axios.interceptors.request.use(
-//     config=>{
-//
-//         return config
-//     }
-// )
+axios.interceptors.request.use(
+    config=>{
+        let token=vuecookies.get('token')
+        if (token!=null){
+            console.log(config)
+            config.headers['token']=token
+        }
+        return config
+    }
+)
+
+
 
 //响应拦截器
 axios.interceptors.response.use(

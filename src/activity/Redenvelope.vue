@@ -209,17 +209,14 @@
             addRed: function () {
                 this.dialogVisible = false
                 if (this.actName != '' && this.name != '' && this.remark != '' && this.sendName != '' && this.totalAmount != '' && this.wishing != '') {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
+                    this.$axios.post(this.$store.state.AddRedpack, {
                         actName: this.actName,
                         name: this.name,
                         remark: this.remark,
                         sendName: this.sendName,
                         totalAmount: this.totalAmount * 100,
                         wishing: this.wishing
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
-                        console.log(res.data)
                         if (res.data.code == 0) {
                             alert('添加成功！')
                             window.location.reload()
@@ -234,7 +231,7 @@
             Yesup: function () {
                 this.Upred = false
                 if (this.UpactName != '' && this.Upname != '' && this.Upremark != '' && this.UpsendName != '' && this.UptotalAmount != '' && this.Upwishing != '') {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/upsert', {
+                    this.$axios.post(this.$store.state.AddRedpack, {
                         actName: this.UpactName,
                         name: this.Upname,
                         remark: this.Upremark,
@@ -242,10 +239,7 @@
                         totalAmount: this.UptotalAmount * 100,
                         wishing: this.Upwishing,
                         id: this.UpredID,
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
-                        console.log(res.data)
                         if (res.data.code == 0) {
                             alert('修改成功！')
                             window.location.reload()
@@ -261,7 +255,6 @@
             //打开修改红包面板
             openUpred: function (val) {
                 this.Upred = true
-                console.log(val)
                 this.Upname = val.name
                 this.UptotalAmount = val.totalAmount / 100
                 this.UpactName = val.actName
@@ -270,12 +263,10 @@
                 this.Upredremark = val.remark
                 this.UpredID = val.id
 
-
             },
             //红包搜索
             searchRed: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.redpackList, {
                     params: {name: this.redName, state: this.value}
                 }).then(res => {
                     if (res.data.code == 0) {
@@ -300,20 +291,15 @@
                 if (this.redState.indexOf('01') != -1) {
                     alert('您当前选中的红包已有存在开启的，请勿重复开启！')
                 } else if (this.redID.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
+                    this.$axios.post(this.$store.state.redpackState, {
                         ids: this.redID,
                         state: '01'
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         if (res.data.code == 0) {
                             window.location.reload()
                         }
                     })
-                } else {
-
                 }
-
             },
 
             //批量关闭红包
@@ -321,11 +307,9 @@
                 if (this.redState.indexOf('02') != -1) {
                     alert('您当前选中的红包已有存在关闭的，请勿重复关闭！')
                 } else if (this.redID.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
+                    this.$axios.post(this.$store.state.redpackState, {
                         ids: this.redID,
                         state: '02'
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         if (res.data.code == 0) {
                             window.location.reload()
@@ -352,13 +336,10 @@
             //红包切换，停用启用
             redTagg: function (id, state) {
                 var s = state == '01' ? '02' : '01'
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/redpack/able', {
+                this.$axios.post(this.$store.state.redpackState, {
                     ids: [id],
                     state: s
-                }, {
-                    headers: {token: this.$cookies.get('token')}
                 }).then(res => {
-                    console.log(res.data)
                     if (res.data.code == 0) {
                         window.location.reload()
                     }
@@ -367,8 +348,7 @@
             },
             //分页
             taggPage: function (val) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.redpackList, {
                     params: {page: val - 1, size: 10,name: this.redName, state: this.value}
                 }).then(res => {
                     this.red = res.data.data
@@ -379,11 +359,9 @@
             }
         },
         created: function () {
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/search', {
-                headers: {token: this.$cookies.get('token')},
+            this.$axios.get(this.$store.state.redpackList, {
                 params: {size: 10}
             }).then(res => {
-                console.log(res.data)
                 this.red = res.data.data
                 this.count = res.data.count
                 this.size = res.data.size

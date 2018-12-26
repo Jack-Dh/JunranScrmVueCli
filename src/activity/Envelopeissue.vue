@@ -131,8 +131,7 @@
 
             //分页
             fenPage: function (page) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.useractivity, {
                     params: {size: 10, state: '02', page: page - 1,sendRedPack: this.value, startTime: this.startTIME,endTime: this.endTIME}
                 }).then(res => {
                     if (res.data.code == 0) {
@@ -144,8 +143,7 @@
             },
             //搜索按钮
             search: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.useractivity, {
                     params: {
                         size: 10,
                         state: '02',
@@ -154,7 +152,6 @@
                         endTime: this.endTIME
                     }
                 }).then(res => {
-                    console.log(res.data)
                     if (res.data.code == 0) {
                         this.EnveList = res.data.data
                         this.Envcount = res.data.count
@@ -172,16 +169,13 @@
                     this.RedId.push(val[i].id)
                     this.stater.push(val[i].sendRedpack)
                 }
-                console.log(this.RedId)
             },
             //批量发送红包
             sendRed: function () {
-                console.log(this.stater)
                 var num = '01'
                 if (this.stater.indexOf(num) == -1) {
                     if (this.RedId.length != 0) {
-                        this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: this.RedId}, {
-                            headers: {token: this.$cookies.get('token')}
+                        this.$axios.post(this.$store.state.SendingRedEnvelope, {ids: this.RedId}, {
                         }).then(res => {
                             if (res.data.code == 0) {
                                 window.location.reload()
@@ -202,9 +196,7 @@
                 console.log(row)
 
                 if (state != '01') {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/sendRedPack', {ids: [id]}, {
-                        headers: {token: this.$cookies.get('token')}
-                    }).then(res => {
+                    this.$axios.post(this.$store.state.SendingRedEnvelope, {ids: [id]}).then(res => {
                         if (res.data.code == 0) {
                             window.location.reload()
                         }
@@ -215,8 +207,7 @@
             }
         },
         created: function () {
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                headers: {token: this.$cookies.get('token')},
+            this.$axios.get(this.$store.state.useractivity, {
                 params: {size: 10, state: '02'}
             }).then(res => {
                 console.log(res.data)

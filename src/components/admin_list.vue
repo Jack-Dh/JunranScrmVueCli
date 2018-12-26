@@ -186,9 +186,7 @@
                         username: this.addusername,
                         icon:this.adminImg}
 
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert',data,{
-                        headers: {token:this.$cookies.get('token')}
-                    }).then(res => {
+                    this.$axios.post(this.$store.state.addAdmin,data).then(res => {
                         if (res.data.code == 0) {
                             alert('添加成功！')
                             window.location.reload()
@@ -200,8 +198,7 @@
             },
             //搜索按钮
             search: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.AdminList, {
                     params: {
                         size: 8,
                         username: this.adminName
@@ -213,11 +210,9 @@
 
 
             },
+            //分页
             handleCurrentChange: function (val) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    },
+                this.$axios.get(this.$store.state.AdminList,{
                     params: {
                         size: 8,
                         page: val - 1,
@@ -251,12 +246,8 @@
                 }else if (pass!==ConPass){
                     alert('两次输入不一致')
                 }else {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/operator/upsert', data, {
-                        headers: {
-                            token: this.$cookies.get('token')
-                        },
+                    this.$axios.post(this.$store.state.addAdmin, data, {
                     }).then(res => {
-                        console.log(res.data)
                         if (res.data.code == 0) {
                             alert('修改成功')
                             this.dialogVisible = false
@@ -300,10 +291,7 @@
                 this.intel = adminData
                 this.loading = false
             } else {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/operator/search', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    },
+                this.$axios.get(this.$store.state.AdminList,{
                     params: {
                         size: 8
                     }

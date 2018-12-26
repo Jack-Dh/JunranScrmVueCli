@@ -349,10 +349,7 @@
                         startTime: this.startTime
                     }
 
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
-                        headers: {token: this.$cookies.get('token')}
-                    }).then(res => {
-                        console.log(res.data)
+                    this.$axios.post(this.$store.state.AddActivity, data).then(res => {
                         this.redBackList = res.data.rs
                         if (res.data.code == 0) {
                             alert('添加成功')
@@ -368,11 +365,9 @@
             //打开添加活动页
             addCtipage: function () {
                 this.dialogVisible = true
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.RedpackList, {
                     params: {state: '01'}
                 }).then(res => {
-                    console.log(res.data)
                     this.redBackList = res.data.rs
                 })
             },
@@ -399,10 +394,7 @@
                         startTime: this.UpstartTime,
                         id: this.Upid,
                     }
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/upsert', data, {
-                        headers: {token: this.$cookies.get('token')}
-                    }).then(res => {
-                        console.log(res.data)
+                    this.$axios.post(this.$store.state.amendActivity, data).then(res => {
                         this.redBackList = res.data.rs
                         if (res.data.code == 0) {
                             alert('修改成功')
@@ -426,11 +418,9 @@
                 this.Upremark = val.remark
                 this.Upmax = val.max
                 this.upcti = true
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/redpack/list', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.RedpackList, {
                     params: {state: '01'}
                 }).then(res => {
-                    console.log(res.data)
                     this.redBackList = res.data.rs
                 })
             },
@@ -451,8 +441,7 @@
 
             //搜索活动
             searchCti: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.ActivityList, {
                     params: {size: 9, state: this.value, activityName: this.ctiName}
                 }).then(res => {
                     console.log(res.data)
@@ -468,11 +457,9 @@
                 if (this.ctistate.indexOf('01') != -1) {
                     alert('选择的活动中已有开启的活动了，请勿重复开启！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', {
+                    this.$axios.post(this.$store.state.ActiveState, {
                         ids: this.multipleSelection,
                         state: '01'
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
 
                         window.location.reload()
@@ -486,11 +473,9 @@
                 if (this.ctistate.indexOf('02') != -1) {
                     alert('选择的活动中已有关闭的活动了，请勿重复关闭！')
                 } else if (this.multipleSelection.length != 0) {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', {
+                    this.$axios.post(this.$store.state.ActiveState, {
                         ids: this.multipleSelection,
                         state: '02'
-                    }, {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
                         console.log(res.data)
                         window.location.reload()
@@ -506,23 +491,19 @@
                 var a = state == '01' ? '02' : '01'
 
                 var data = {ids: [id], state: a}
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/activity/able', data, {
-                    headers: {token: this.$cookies.get('token')}
-                }).then(res => {
+                this.$axios.post(this.$store.state.ActiveState, data).then(res => {
                     window.location.reload()
                 })
 
             },
             //分页
             changePage: function (val) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.ActivityList, {
                     params: {size: 9, state: this.value, activityName: this.ctiName,page: val - 1}
                 }).then(res => {
                     this.ctilist = res.data.data
                     this.count=res.data.count
                     this.pageSize=res.data.size
-                    console.log(res.data)
                 })
             },
             //选中后获取所有选中的id存到数组
@@ -532,16 +513,14 @@
                     this.multipleSelection.push(val[i].id)
                     this.ctistate.push(val[i].state)
                 }
-                console.log(this.multipleSelection)
             }
         },
         created: function () { //这是活动列表
             this.myHeaders = {token: this.$cookies.get('token')}
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/activity/search', {
+            this.$axios.get(this.$store.state.ActivityList, {
                 headers: {token: this.$cookies.get('token')},
                 params: {size: 9}
             }).then(res => {
-                console.log(res.data)
                 this.ctilist = res.data.data
                 this.count=res.data.count
                 this.pageSize=res.data.size

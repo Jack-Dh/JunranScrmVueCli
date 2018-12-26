@@ -217,7 +217,6 @@
         methods: {
             //根据状态搜索
             stateFans: function (value) {
-                console.log(value)
                 this.searchState = value;
             },
             //根据标签搜索
@@ -228,18 +227,14 @@
 
             //搜索按钮
             search: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.fensiList, {
                     params: {
                         size: 9,
                         nickname: this.username,
                         subscribe: this.searchState,
                         tag: this.searchTagId
-
                     }
                 }).then(res => {
-                    // this.fans.length==0;
-                    console.log(res.data)
                     this.count = res.data.count
                     this.fans = res.data.data
                     this.page = res.data.pageCount
@@ -256,21 +251,16 @@
                     .catch(_ => {
                     });
             },
-            //打开添加标签页
+            //打开用户添加标签页
             a: function (val) {
                 this.dialogTag = true;
                 this.userId = val.id
 
-                console.log(val)
                 //保存用户已有的标签
                 for (var i = 0; i < val.tag.length; i++) {
                     this.TagId.push(val.tag[i].id)
                 }
-                console.log(this.TagId)
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    }
+                this.$axios.get(this.$store.state.usertagList, {
                 }).then(res => {
                     this.Tag = res.data.rs
                 })
@@ -280,13 +270,9 @@
             //给用户添加标签
             addTagNmae: function () {
 
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/updateTag', {
+                this.$axios.post(this.$store.state.addTag, {
                     ids: this.TagId,
                     state: this.userId
-                }, {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    }
                 }).then(res => {
                     alert('修改成功')
                     window.location.reload()
@@ -300,17 +286,13 @@
             },
             //分页
             handleCurrentChange: function (val) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    },
+                this.$axios.get(this.$store.state.fensiList, {
                     params: {
                         size: 9,
                         subscribe: this.searchState,
                         page: val - 1,
                         nickname: this.username,
                         tag: this.searchTagId
-
                     }
 
                 }).then(res => {
@@ -357,11 +339,7 @@
                 let inputValue = this.inputValue;
                 console.log(this.dynamicTags)
                 let val = {name: inputValue}
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', val,
-                    {
-                        headers: {token: this.$cookies.get('token')}
-                    }).then(res => {
-                    console.log(res.data)
+                this.$axios.post(this.$store.state.upTag, val).then(res => {
                     if (res.data.code == 0) {
                         this.dynamicTags.push({name: inputValue});
                     } else {
@@ -373,12 +351,10 @@
                 this.inputVisible = false;
                 this.inputValue = '';
             },
+            //标签列表
             optag: function () {
 
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/user/usertag/list', {
-                    headers: {
-                        token: this.$cookies.get('token')
-                    },
+                this.$axios.get(this.$store.state.usertagList, {
                 }).then(res => {
                     this.dynamicTags = res.data.rs
                 })
@@ -387,22 +363,16 @@
             //修改标签
             inputUpdata: function (id, e) {
                 var tagName = e.target.value
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/user/usertag/upsert', {
+                this.$axios.post(this.$store.state.upTag, {
                         "id": id,
                         "name": tagName
-                    },
-                    {
-                        headers: {token: this.$cookies.get('token')}
                     }).then(res => {
 
                 })
             }
         },
         created: function () {
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/user/search', {
-                headers: {
-                    token: this.$cookies.get('token')
-                },
+            this.$axios.get(this.$store.state.fensiList, {
                 params: {
                     size: 9
                 }

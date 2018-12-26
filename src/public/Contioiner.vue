@@ -245,10 +245,6 @@
                 if (a) {
                     //列表中包含已有打开的选项卡
                     this.editableTabsValue2 = num.toString()//标题选中已打开的选项卡
-                    // this.tabIndex = num//坐标从最后一个选项卡开始
-
-
-                        console.log(num)
                     sessionStorage.setItem('tabName', this.editableTabsValue2)//记录已有选项卡中最后选中第几个菜单
 
                 } else {
@@ -357,8 +353,6 @@
         created: function () {
 
             this.shuaxin()
-            // this.editableTabs2=JSON.parse(sessionStorage.getItem('menu'))
-
             this.name = this.$cookies.get('name');
             this.iconImg = this.$cookies.get('icon')
             this.menHeight = window.innerHeight - 50

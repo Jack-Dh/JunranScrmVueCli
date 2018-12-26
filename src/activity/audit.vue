@@ -234,8 +234,7 @@
         methods: {
             //搜索活动
             search: function () {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.useractivity, {
                     params: {size: 10,auditStartTime:this.auditStartTime,auditEndTime:this.auditEndTime,keyword:this.actiName,state:this.value}
                 }).then(res => {
                     console.log(res.data)
@@ -253,9 +252,7 @@
                 if (this.acditId.length == 0) {
                     alert('您还未选择数据！')
                 } else {
-                    this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: this.acditId}, {
-                        headers: {token: this.$cookies.get('token')}
-                    }).then(res => {
+                    this.$axios.post(this.$store.state.ActivitiesThrough, {ids: this.acditId}).then(res => {
                         if (res.data.code == 0) {
                             alert('操作成功！')
                             window.location.reload()
@@ -275,9 +272,7 @@
             },
             //活动通过
             through: function (id) {
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/pass', {ids: [id]}, {
-                    headers: {token: this.$cookies.get('token')}
-                }).then(res => {
+                this.$axios.post(this.$store.state.ActivitiesThrough, {ids: [id]}).then(res => {
                     if (res.data.code == 0) {
                         alert('操作成功！')
                         window.location.reload()
@@ -288,11 +283,9 @@
             },
             //活动拒绝
             reject: function (id) {
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/useractivity/reject', {
+                this.$axios.post(this.$store.state.ActivityDeclinedTo, {
                     id: id,
                     rejectMessage: this.rejectMessage
-                }, {
-                    headers: {token: this.$cookies.get('token')}
                 }).then(res => {
                     if (res.data.code == 0) {
                         alert('操作成功！')
@@ -302,8 +295,7 @@
             },
             //分页
             currChange: function (val) {
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                    headers: {token: this.$cookies.get('token')},
+                this.$axios.get(this.$store.state.useractivity, {
                     params: {size: 10, page: val - 1,auditStartTime:this.auditStartTime,auditEndTime:this.auditEndTime,keyword:this.actiName,state:this.value}
                 }).then(res => {
                     if (res.data.code == 0) {
@@ -316,11 +308,9 @@
             }
         },
         created: function () {
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/useractivity/search', {
-                headers: {token: this.$cookies.get('token')},
+            this.$axios.get(this.$store.state.useractivity, {
                 params: {size: 10}
             }).then(res => {
-                console.log(res.data)
                 if (res.data.code == 0) {
                     this.acditList = res.data.data
                     this.count = res.data.count

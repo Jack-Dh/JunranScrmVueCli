@@ -57,7 +57,7 @@
                     <div style="padding: 14px;">
                         <div class="bottom clearfix">
                             <time class="time">序号：{{ index+1 }}</time>
-                            <el-button type="text" @click.stop="removeImg" class="button">删除图片</el-button>
+                            <el-button type="text" @click.stop="removeImg(index)" class="button">删除图片</el-button>
                         </div>
                     </div>
                 </el-card>
@@ -130,9 +130,7 @@
         methods: {
             //微信设置刷新
             wxSetShuaxin(){
-                this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/refreshMenus',{
-                    headers:{token:this.$cookies.get('token')}
-                })
+                this.$axios.get(this.$store.state.wxsettingRefresh)
 
             },
             //保存，并提交服务器
@@ -148,9 +146,7 @@
                                 bannerImages: this.imgdata,
                                 menus: this.menus
                             }
-                            this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
-                                headers: {token: this.$cookies.get('token')}
-                            }).then(res => {
+                            this.$axios.post(this.$store.state.wxSave, b).then(res => {
                                 if(res.data.code==0){
                                     alert('保存成功')
                                     this.wxSetShuaxin()
@@ -164,9 +160,7 @@
                                 bannerImages: this.imgdata,
                                 menus: this.menus
                             }
-                            this.$axios.post('http://jiajiachuang.cn/junran/manage/wxsetting/upsert', b, {
-                                headers: {token: this.$cookies.get('token')}
-                            }).then(res => {
+                            this.$axios.post(this.$store.state.wxSave, b).then(res => {
                                 console.log(res.data)
                                 if(res.data.code==0){
                                     alert('保存成功')
@@ -176,10 +170,6 @@
                             })
                         }
                     }
-
-
-
-
             },
             mouseover() {
                 this.taggRemoveImg = true
@@ -203,8 +193,8 @@
 
 
             //移除轮播图
-            removeImg() {
-                this.imgdata.splice(this.index, 1)
+            removeImg(index) {
+                this.imgdata.splice(index, 1)
             },
 
             //修改图片成功后的回调
@@ -235,8 +225,7 @@
         },
         created: function () {
             this.myHeaders = {token: this.$cookies.get('token')}
-            this.$axios.get('http://jiajiachuang.cn/junran/manage/wxsetting/get',{headers:{token: this.$cookies.get('token')}}).then(res => {
-                console.log(res.data)
+            this.$axios.get(this.$store.state.wxsetting).then(res => {
                 this.wxdata = res.data.rs
                 this.imgdata = res.data.rs.bannerImages
                 this.menus = res.data.rs.menus

@@ -50,9 +50,8 @@
                 let resule={'username': username, 'password': password}
 
                 //请求接口，拿token
-                this.$axios.post('http://jiajiachuang.cn/junran/manage/login', resule).then(res => {
+                this.$axios.post(this.$store.state.login, resule).then(res => {
                     if (res.data.code == 0) {
-
                         this.$cookies.set('token', res.data.rs.token);//将token保存到cookie
                         this.$cookies.set('id', res.data.rs.operator.id)//用户id
                         this.$cookies.set('name', res.data.rs.operator.username);//将用户名保存到cookie
